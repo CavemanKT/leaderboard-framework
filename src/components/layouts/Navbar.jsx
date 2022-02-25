@@ -11,7 +11,6 @@ import ModalsSignup from '@/components/modals/auth/signup'
 import ModalsLogin from '@/components/modals/auth/login'
 
 // img
-import brandLogo from '../../../public/assets/logo_transparent_1.png'
 
 // user
 import useUser from '@/_hooks/user'
@@ -58,19 +57,19 @@ export default function CompsLayoutsNavbar() {
     <>
       <Navbar id="comps-layouts-navbar" bg="light" expand="lg">
         <Container>
-          <Image src={brandLogo} alt="brand-logo" width="64" height="64" />
+          {/* <Image src={brandLogo} alt="brand-logo" width="250" height="250" /> */}
           <span>
             <div>
-              <Navbar.Brand as={Link} href="/"><a className="navbar-brand font-color">Battle</a></Navbar.Brand>
+              <Navbar.Brand as={Link} href="/"><a className="navbar-brand font-color">SkilledUp</a></Navbar.Brand>
             </div>
             <div>
-              <Navbar.Brand as={Link} href="/"><a className="navbar-brand font-color">Hub</a></Navbar.Brand>
+              <Navbar.Brand as={Link} href="/"><a className="navbar-brand font-color">Life</a></Navbar.Brand>
             </div>
           </span>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto d-flex">
-              <Nav.Link as={Link} href="/about-us"><a className="nav-link">About Us</a></Nav.Link>
+              <Nav.Link as={Link} href="/aboutUs"><a className="nav-link">About Us</a></Nav.Link>
               <Nav.Link as={Link} href="/private"><a className="nav-link">User</a></Nav.Link>
               {/* <Nav.Link as={Link} href="/blog"><a className="nav-link">Blog</a></Nav.Link> */}
 

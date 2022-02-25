@@ -1,6 +1,5 @@
-const Sequelize = require('sequelize')
-
-module.exports = function (sequelize, DataTypes) {
+const Sequelize = require('sequelize');
+module.exports = function(sequelize, DataTypes) {
   return sequelize.define('SequelizeMetum', {
     name: {
       type: DataTypes.STRING(255),
@@ -14,12 +13,12 @@ module.exports = function (sequelize, DataTypes) {
     timestamps: false,
     indexes: [
       {
-        name: 'SequelizeMeta_pkey',
+        name: "SequelizeMeta_pkey",
         unique: true,
         fields: [
-          { name: 'name' }
+          { name: "name" },
         ]
-      }
+      },
     ]
-  })
-}
+  });
+};

@@ -1,6 +1,5 @@
-const Sequelize = require('sequelize')
-
-module.exports = function (sequelize, DataTypes) {
+const Sequelize = require('sequelize');
+module.exports = function(sequelize, DataTypes) {
   return sequelize.define('User', {
     id: {
       autoIncrement: true,
@@ -8,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    name: {
+    domain: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
@@ -24,11 +23,23 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    registrationType: {
-      type: DataTypes.ENUM('email'),
+    country: {
+      type: DataTypes.STRING(255),
       allowNull: true
     },
-    type: {
+    category: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    revenueModelType: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    registrationType: {
+      type: DataTypes.ENUM("email"),
+      allowNull: true
+    },
+    role: {
       type: DataTypes.STRING(255),
       allowNull: true
     }
@@ -39,12 +50,12 @@ module.exports = function (sequelize, DataTypes) {
     timestamps: true,
     indexes: [
       {
-        name: 'Users_pkey',
+        name: "Users_pkey",
         unique: true,
         fields: [
-          { name: 'id' }
+          { name: "id" },
         ]
-      }
+      },
     ]
-  })
-}
+  });
+};

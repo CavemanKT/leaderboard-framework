@@ -34,12 +34,13 @@ const userSerializer = function (values) {
 }
 
 const authEmailSignup = async (req, res) => {
+  console.log(req.body)
   const user = await User.build({
-    ...req.body, registrationType: 'email', type: 'candidate'
+    ...req.body, registrationType: 'email', role: 'user'
   }, {
-    attributes: ['name', 'email', 'passwordHash', 'registrationType', 'type']
+    attributes: ['domain', 'email', 'passwordHash', 'country', 'category', 'revenueModelType', 'registrationType', 'role']
   })
-
+console.log('123');
   user.passwordHash = await bcrypt.hash(req.body.password, 10)
   await user.save()
 
@@ -49,6 +50,7 @@ const authEmailSignup = async (req, res) => {
   req.session.set('token', token)
   await req.session.save()
 
+  console.log(userSerializer(user))
   res.status(200).json(userSerializer(user))
 }
 

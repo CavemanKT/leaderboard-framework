@@ -7,7 +7,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      domain: {
         type: Sequelize.STRING
       },
       email: {
@@ -19,10 +19,19 @@ module.exports = {
       passwordHash: {
         type: Sequelize.STRING
       },
+      country: {
+        type: Sequelize.STRING
+      },
+      category: {
+        type: Sequelize.STRING
+      },
+      revenueModelType: {
+        type: Sequelize.STRING
+      },
       registrationType: {
         type: Sequelize.ENUM('email')  // to specify which method you use to login the website, add 'facebook', 'google', 'github' if you want to use them
       },
-      type: {
+      role: {
         type: Sequelize.STRING  // could be 'candidate', 'inspector', 'admin'
       },
       createdAt: {

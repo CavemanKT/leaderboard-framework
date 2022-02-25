@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       User.AuthenticityTokens = this.hasMany(models.AuthenticityToken, { onDelete: 'CASCADE', hooks: true })
-      User.Profile = this.hasOne(models.Profile)
     }
   }
 

@@ -2,7 +2,7 @@ import nc from 'next-connect'
 import crypto from 'crypto'
 
 import session from '@/api/helpers/session'
-import passportInspector from '@/api/helpers/passport_inspector'
+import passportAdmin from '@/api/helpers/passport_admin'
 
 const userSerializer = function (values) {
   const { ...user } = values.dataValues
@@ -10,8 +10,8 @@ const userSerializer = function (values) {
   return user
 }
 
-const authEmailInspectorLogin = async (req, res, next) => {
-  passportInspector.authenticate('inspector-local', async (err, user, info) => {
+const authEmailAdminLogin = async (req, res, next) => {
+  passportAdmin.authenticate('admin-local', async (err, user, info) => {
     if (err) return res.status(500).end(err.toString())
     if (!user) return res.status(401).json(info)
 
@@ -27,6 +27,6 @@ const authEmailInspectorLogin = async (req, res, next) => {
 
 export default nc()
   .use(session)
-  .use(passportInspector.initialize())
-  .use(passportInspector.session())
-  .use(authEmailInspectorLogin)
+  .use(passportAdmin.initialize())
+  .use(passportAdmin.session())
+  .use(authEmailAdminLogin)
