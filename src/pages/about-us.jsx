@@ -10,14 +10,14 @@ function PagesPrivate() {
           About us
         </h1>
         <h4 className="ms-4 me-3 mb-5">
-          We are PVP facilitator of the virtual world, we aim at enhancing human kind&#39;s skills in terms of strategy, instinct response and quick learning.
+          This is leaderboard
         </h4>
 
         <h1 className="mt-5 ms-4 me-3 mb-3">
           Philosophy
         </h1>
         <h4 className="ms-4 me-3 mb-5">
-          Aim at Perfection, try harder
+          Constantly improving
         </h4>
       </div>
 

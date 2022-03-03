@@ -8,21 +8,21 @@ const getCurrentUserByToken = async (req, res, next) => {
       where: { token },
       include: {
         association: AuthenticityToken.User,
-        include: {
-          association: User.Profile
-        }
+        // include: {
+        //   association: User.Profile
+        // }
       }
     })
 
     if (authToken) {
       res.currentUser = authToken.User
-      res.currentProfile = authToken.User.Profile
+      // res.currentProfile = authToken.User.Profile
     }
   }
 
   if (res.currentUser === undefined) {
     res.currentUser = null
-    res.currentProfile = null
+    // res.currentProfile = null
   }
 
   return next()
