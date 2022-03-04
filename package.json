@@ -9,6 +9,9 @@
     "gen-models": "sequelize-auto -o './src/db/schema' -d leaderboarddb -h localhost -p 5432 -e postgres --cf l --sg true -u postgres -x 12345678"
   },
   "dependencies": {
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
+    "@mui/material": "^5.4.4",
     "axios": "^0.24.0",
     "babel-plugin-superjson-next": "^0.4.2",
     "bcrypt": "^5.0.1",
