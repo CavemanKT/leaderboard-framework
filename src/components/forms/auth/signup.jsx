@@ -12,11 +12,11 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
         className={`form-control ${(errors.name && touched.name ? ' is-invalid' : '')}`}
         name="domain"
         type="url"
-        placeholder='itch.io'
+        placeholder='http://itch.io'
       />
       <ErrorMessage component="div" className="invalid-feedback" name="name" />
     </div>
-    <div className="form-group">
+    <div className="form-group mt-2">
       <label htmlFor="email">Email</label>
       <Field
         id="email"
@@ -27,7 +27,7 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
       <ErrorMessage component="div" className="invalid-feedback" name="email" />
     </div>
 
-    <div className="form-group">
+    <div className="form-group mt-2">
       <label htmlFor="password">Password</label>
       <Field
         id="password"
@@ -38,7 +38,7 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
       <ErrorMessage component="div" className="invalid-feedback" name="password" />
     </div>
 
-    <div className="form-group">
+    <div className="form-group mt-2">
       <label htmlFor="passwordConfirmation">Confirmation</label>
       <Field
         id="passwordConfirmation"
@@ -50,11 +50,21 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
     </div>
 
 {/* company profile */}
-    <div className='mt-5'>
+    <div className='mt-3'>
       <h5 className='text-center'>
         Company Profile
       </h5>
-      <div className="form-group">
+      <div className="form-group mt-3">
+        <label htmlFor="founded">Founded in</label>
+        <Field
+          id="founded"
+          className={`form-control ${(errors.founded && touched.founded ? ' is-invalid' : '')}`}
+          name="founded"
+          type="number"
+        />
+        <ErrorMessage component="div" className="invalid-feedback" name="country" />
+      </div>
+      <div className="form-group mt-2">
         <label htmlFor="country">Country</label>
         <Field
           id="country"
@@ -64,7 +74,7 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
         />
         <ErrorMessage component="div" className="invalid-feedback" name="country" />
       </div>
-      <div className="form-group">
+      <div className="form-group mt-2">
         <label htmlFor="category">Category</label>
         <Field
           id="category"
@@ -74,7 +84,7 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
         />
         <ErrorMessage component="div" className="invalid-feedback" name="category" />
       </div>
-      <div className="form-group">
+      <div className="form-group mt-2">
         <label htmlFor="revenueModelType">Revenue Model Type</label>
         <Field
           id="revenueModelType"
@@ -88,7 +98,7 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
 
 
 
-    <button className="btn btn-info mt-3" type="submit" disabled={isSubmitting}>Register</button>
+    <button className="btn btn-info mt-2" type="submit" disabled={isSubmitting}>Register</button>
   </Form>
 )
 RenderForm.propTypes = {

@@ -1,40 +1,48 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('User', {
+  return sequelize.define('Profile', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    email: {
+    domain: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    socialUserId: {
+    founded: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    country: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    passwordHash: {
+    category: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    registrationType: {
-      type: DataTypes.ENUM("email"),
+    revenueModelType: {
+      type: DataTypes.STRING(255),
       allowNull: true
     },
-    role: {
-      type: DataTypes.STRING(255),
+    score: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    UserId: {
+      type: DataTypes.INTEGER,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'Users',
+    tableName: 'Profiles',
     schema: 'public',
     timestamps: true,
     indexes: [
       {
-        name: "Users_pkey",
+        name: "Profiles_pkey",
         unique: true,
         fields: [
           { name: "id" },

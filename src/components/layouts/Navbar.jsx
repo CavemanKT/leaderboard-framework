@@ -53,6 +53,12 @@ export default function CompsLayoutsNavbar() {
     apiLogout()
   }
 
+  //! overlay at the navbar
+  const handleClick = (event) => {
+    setShow(!show)
+    setTarget(event.target)
+  }
+
   return (
     <>
       <Navbar id="comps-layouts-navbar" bg="light" expand="lg">
@@ -82,7 +88,10 @@ export default function CompsLayoutsNavbar() {
               )}
               {
               user && (
-                <Nav.Link className="" onClick={handleLogout}>Log out</Nav.Link>
+                <>
+                  
+                  <Nav.Link className="" onClick={handleLogout}>Log out</Nav.Link>
+                </>
               )
             }
 

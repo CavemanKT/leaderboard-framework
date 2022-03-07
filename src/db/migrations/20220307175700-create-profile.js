@@ -1,26 +1,33 @@
+'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Profiles', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      email: {
+      domain: {
         type: Sequelize.STRING
       },
-      socialUserId: {  // for github account
+      founded: {
+        type: Sequelize.INTEGER
+      },
+      country: {
         type: Sequelize.STRING
       },
-      passwordHash: {
+      category: {
         type: Sequelize.STRING
       },
-      registrationType: {
-        type: Sequelize.ENUM('email')  // to specify which method you use to login the website, add 'facebook', 'google', 'github' if you want to use them
-      },
-      role: {
+      revenueModelType: {
         type: Sequelize.STRING
+      },
+      score: {
+        type: Sequelize.INTEGER
+      },
+      UserId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -30,9 +37,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    })
+    });
   },
-  down: async (queryInterface) => {
-    await queryInterface.dropTable('Users')
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('Profiles');
   }
-}
+};

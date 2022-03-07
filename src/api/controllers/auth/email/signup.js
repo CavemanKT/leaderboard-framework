@@ -2,30 +2,11 @@ import nc from 'next-connect'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 
-// import { body } from 'express-validator'
-import { User } from '@/db/models'
+import { User, Profile } from '@/db/models'
+
 import session from '@/api/helpers/session'
 import passport from '@/api/helpers/passport'
 
-// import { checkValidation } from '@/api/helpers/check-validation'
-
-// const validation = [
-//   body('email')
-//     .notEmpty().withMessage('Email is Required')
-//     .isEmail()
-//     .withMessage('Email must be valid')
-//     .custom(async (email) => {
-//       if (email) {
-//         const user = await User.findOne({ where: { email } })
-//         if (user) return Promise.reject()
-//       }
-//     })
-//     .withMessage('Email already in use'),
-//   body('password')
-//     .notEmpty().withMessage('Password is Required')
-//     .isLength({ min: 6 })
-//     .withMessage('Password must be longer or equal to 6 characters')
-// ]
 
 const userSerializer = function (values) {
   const { ...user } = values.dataValues
@@ -38,9 +19,11 @@ const authEmailSignup = async (req, res) => {
   const user = await User.build({
     ...req.body, registrationType: 'email', role: 'user'
   }, {
-    attributes: ['domain', 'email', 'passwordHash', 'country', 'category', 'revenueModelType', 'registrationType', 'role']
+    attributes: ['email', 'passwordHash', 'registrationType', 'role']
   })
-console.log('123');
+
+  console.log('user sign up');
+
   user.passwordHash = await bcrypt.hash(req.body.password, 10)
   await user.save()
 
@@ -50,7 +33,19 @@ console.log('123');
   req.session.set('token', token)
   await req.session.save()
 
+  if (!user) {
+    res.status(403).json('need to fill in the necessary information')
+  }
+
+  const profile = await Profile.create({
+    ...req.body, UserId: user.id
+  }, {
+    attributes: ['domain', 'founded', 'country', 'category', 'revenueModelType']
+  })
+  
+  console.log(profile)
   console.log(userSerializer(user))
+
   res.status(200).json(userSerializer(user))
 }
 
@@ -58,6 +53,4 @@ export default nc()
   .use(session)
   .use(passport.initialize())
   .use(passport.session())
-  // .use(checkValidation)
-  // .use(validation)
   .use(authEmailSignup)

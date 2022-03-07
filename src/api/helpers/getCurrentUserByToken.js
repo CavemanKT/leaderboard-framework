@@ -8,9 +8,9 @@ const getCurrentUserByToken = async (req, res, next) => {
       where: { token },
       include: {
         association: AuthenticityToken.User,
-        // include: {
-        //   association: User.Profile
-        // }
+        include: {
+          association: User.Profile
+        }
       }
     })
 

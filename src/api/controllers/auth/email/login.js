@@ -1,6 +1,6 @@
 import nc from 'next-connect'
 import crypto from 'crypto'
-
+import { Profile } from '@/db/models'
 import session from '@/api/helpers/session'
 import passport from '@/api/helpers/passport'
 
@@ -20,6 +20,18 @@ const authEmailLogin = async (req, res, next) => {
 
     req.session.set('token', token)
     await req.session.save()
+
+    if (!user) return res.status(401).json('error')
+
+    const currentProfile = await Profile.findOne({
+      where: {
+        UserId: user.id
+      }
+    })
+
+    if(currentProfile) {
+      user.Profile = currentProfile
+    }
 
     return res.status(200).json(userSerializer(user))
   })(req, res, next)

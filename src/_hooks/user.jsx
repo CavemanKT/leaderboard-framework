@@ -8,7 +8,7 @@ export default function useUser() {
   const { data, error, mutate } = useSWR('/api/my/profile', fetcher, {
     shouldRetryOnError: false
   })
-
+console.log(data)
   const apiSignup = (values) => (new Promise((resolve, reject) => {
     axios({
       method: 'POST',
