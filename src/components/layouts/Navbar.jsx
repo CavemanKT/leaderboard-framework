@@ -3,10 +3,11 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
-import Image from 'next/image'
-
+import Overlay from 'react-bootstrap/Overlay'
+import Popover from 'react-bootstrap/Popover'
+import Button from 'react-bootstrap/Button'
 import ModalsSignup from '@/components/modals/auth/signup'
 import ModalsLogin from '@/components/modals/auth/login'
 
@@ -16,6 +17,9 @@ import ModalsLogin from '@/components/modals/auth/login'
 import useUser from '@/_hooks/user'
 
 export default function CompsLayoutsNavbar() {
+  const [show, setShow] = useState(false)
+  const [target, setTarget] = useState(null)
+  const ref = useRef(null)
   const [openSignupModal, setOpenSignupModal] = useState(false)
   const [openLoginModal, setOpenLoginModal] = useState(false)
 
@@ -53,7 +57,6 @@ export default function CompsLayoutsNavbar() {
     apiLogout()
   }
 
-  //! overlay at the navbar
   const handleClick = (event) => {
     setShow(!show)
     setTarget(event.target)
@@ -74,11 +77,8 @@ export default function CompsLayoutsNavbar() {
           </span>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto d-flex">
+            <Nav className="me-auto w-100">
               <Nav.Link as={Link} href="/about-us"><a className="nav-link">About Us</a></Nav.Link>
-              <Nav.Link as={Link} href="/private"><a className="nav-link">User</a></Nav.Link>
-              {/* <Nav.Link as={Link} href="/blog"><a className="nav-link">Blog</a></Nav.Link> */}
-
               { !user
               && (
                 <>
@@ -88,10 +88,41 @@ export default function CompsLayoutsNavbar() {
               )}
               {
               user && (
-                <>
-                  
+                <div className="d-flex justify-content-end w-100 p-2">
+                  <div ref={ref}>
+                    <Button onClick={handleClick}>{user.email}</Button>
+                    <Overlay
+                      show={show}
+                      target={target}
+                      placement="bottom"
+                      container={ref}
+                      containerPadding={20}
+                    >
+                      <Popover id="popover-contained">
+                        <Popover.Body>
+                          <ul className="list-unstyled text-center">
+                            <li className="mb-2 rounded-3 btn-info">
+                              <button className="btn">account</button>
+                            </li>
+                            <li className="mb-2 rounded-3 btn-info">
+                              <button className="btn">profile</button>
+                            </li>
+                            <li className="mb-2 rounded-3 btn-info">
+                              <button className="btn">report</button>
+                            </li>
+                            <li className="mb-2 rounded-3 btn-info">
+                              <button className="btn">cms</button>
+                            </li>
+                            <li className="mb-2 rounded-3 btn-info">
+                              <button className="btn">logout</button>
+                            </li>
+                          </ul>
+                        </Popover.Body>
+                      </Popover>
+                    </Overlay>
+                  </div>
                   <Nav.Link className="" onClick={handleLogout}>Log out</Nav.Link>
-                </>
+                </div>
               )
             }
 
