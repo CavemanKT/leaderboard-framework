@@ -53,14 +53,17 @@ export default function CompsLayoutsNavbar() {
     })
   }
 
-  const handleLogout = () => {
-    apiLogout()
-  }
-
   const handleClick = (event) => {
     setShow(!show)
     setTarget(event.target)
   }
+
+  const handleLogout = (event) => {
+    handleClick(event)
+    apiLogout()
+  }
+
+
 
   return (
     <>
@@ -102,26 +105,25 @@ export default function CompsLayoutsNavbar() {
                         <Popover.Body>
                           <ul className="list-unstyled text-center">
                             <li className="mb-2 rounded-3 btn-info">
-                              <button className="btn">account</button>
+                              <Nav.Link as={Link} href="/my/account" onClick={handleClick}><a className="btn">account</a></Nav.Link>
                             </li>
                             <li className="mb-2 rounded-3 btn-info">
-                              <button className="btn">profile</button>
+                              <Nav.Link as={Link} href="/my/profile" onClick={handleClick}><a className="btn">profile</a></Nav.Link>
                             </li>
                             <li className="mb-2 rounded-3 btn-info">
-                              <button className="btn">report</button>
+                              <Nav.Link as={Link} href="/my/report" onClick={handleClick}><a className="btn">report</a></Nav.Link>
                             </li>
                             <li className="mb-2 rounded-3 btn-info">
-                              <button className="btn">cms</button>
+                              <Nav.Link as={Link} href="/my/cms" onClick={handleClick}><a className="btn">cms</a></Nav.Link>
                             </li>
-                            <li className="mb-2 rounded-3 btn-info">
-                              <button className="btn">logout</button>
+                            <li className="mb-2 rounded-3 btn-light">
+                              <Nav.Link className="btn" onClick={handleLogout}>Log out</Nav.Link>
                             </li>
                           </ul>
                         </Popover.Body>
                       </Popover>
                     </Overlay>
                   </div>
-                  <Nav.Link className="" onClick={handleLogout}>Log out</Nav.Link>
                 </div>
               )
             }

@@ -6,15 +6,15 @@ import * as yup from 'yup'
 const RenderForm = ({ errors, touched, isSubmitting }) => (
   <Form>
     <div className="form-group">
-      <label htmlFor="name">Domain Name</label>
+      <label htmlFor="domain">Domain Name</label>
       <Field
         id="url"
-        className={`form-control ${(errors.name && touched.name ? ' is-invalid' : '')}`}
+        className={`form-control ${(errors.domain && touched.domain ? ' is-invalid' : '')}`}
         name="domain"
         type="url"
         placeholder='http://itch.io'
       />
-      <ErrorMessage component="div" className="invalid-feedback" name="name" />
+      <ErrorMessage component="div" className="invalid-feedback" name="domain" />
     </div>
     <div className="form-group mt-2">
       <label htmlFor="email">Email</label>
