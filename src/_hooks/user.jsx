@@ -51,6 +51,23 @@ console.log(data)
     })
   }))
 
+  const apiAccount = (values, id) => (new Promise((resolve, reject) => {
+    console.log(values)
+    axios({
+      method: 'PUT',
+      url: `/api/my/account/${id}`,
+      data: values,
+      withCredentials: true
+    }).then((resp) => {
+      console.log(resp.data)
+      resolve(resp)
+      mutate(resp.data)
+    }).catch((err) => {
+      reject(err)
+      console.log(err)
+    })
+  }))
+
   return {
     user: data?.user || null,
     isLoading: !error && !data,
@@ -58,6 +75,7 @@ console.log(data)
     errorMessage: error?.response?.data?.message,
     apiSignup,
     apiLogin,
-    apiLogout
+    apiLogout,
+    apiAccount
   }
 }
