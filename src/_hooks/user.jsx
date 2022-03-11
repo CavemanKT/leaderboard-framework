@@ -51,11 +51,28 @@ console.log(data)
     })
   }))
 
-  const apiAccount = (values, id) => (new Promise((resolve, reject) => {
+  const apiAccountUpdate = (values, id) => (new Promise((resolve, reject) => {
     console.log(values)
     axios({
       method: 'PUT',
       url: `/api/my/account/${id}`,
+      data: values,
+      withCredentials: true
+    }).then((resp) => {
+      console.log(resp.data)
+      resolve(resp)
+      mutate(resp.data)
+    }).catch((err) => {
+      reject(err)
+      console.log(err)
+    })
+  }))
+
+  const apiPasswordUpdate = (values, id) => (new Promise((resolve, reject) => {
+    console.log(values)
+    axios({
+      method: 'PUT',
+      url: `/api/my/password/${id}`,
       data: values,
       withCredentials: true
     }).then((resp) => {
@@ -76,6 +93,7 @@ console.log(data)
     apiSignup,
     apiLogin,
     apiLogout,
-    apiAccount
+    apiAccountUpdate,
+    apiPasswordUpdate
   }
 }

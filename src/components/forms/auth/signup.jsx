@@ -118,6 +118,7 @@ const authSignupSchema = yup.object().shape({
       'Both Password need to be the same'
     )
   }),
+  founded: yup.number().min(4, 'please enter year of four digits'),
   country: yup.string().required('required'),
   category: yup.string().required('required'),
   revenueModelType: yup.string().required('required'),
@@ -130,6 +131,7 @@ const FormsAuthSignup = ({ onSubmit }) => (
       email: '',
       password: '',
       passwordConfirmation: '',
+      founded: '',
       country: '',
       category: '',
       revenueModelType: ''
