@@ -11,6 +11,8 @@ import FormAccount from '@/components/forms/auth/account'
 import CompsLayout from '@/components/layouts/Layout'
 import useUser from '@/_hooks/user'
 
+import withPrivateRoute from '@/_hocs/withPrivateRoute'
+
 const accountPart = () => {
   const [ show, setShow ] = useState(false)
   const [target, setTarget] = useState(null)
@@ -18,7 +20,7 @@ const accountPart = () => {
   const [toggleAccountFields, setToggleAccountFields] = useState(true)
   const [togglePasswordFields, setTogglePasswordFields] = useState(false)
   const router = useRouter()
-  const { user, apiAccountUpdate } = useUser()
+  const { user, apiAccountUpdate, apiPasswordUpdate, apiLogout } = useUser()
   
   const handleClick = (event) => {
     setShow(!show)
@@ -33,7 +35,10 @@ const accountPart = () => {
 
   const submitPasswordUpdate = (value, id) => {
     console.log(value, id)
-    apiPasswordUpdate(value, id)
+    apiPasswordUpdate(value, id).then((resp) => {
+      apiLogout()
+      router.push('/')
+    })
   }
 
   const handleAccountFields = (event) => {
@@ -99,4 +104,4 @@ const accountPart = () => {
   )
 }
 
-export default accountPart
+export default withPrivateRoute(accountPart)

@@ -10,27 +10,29 @@ const RenderForm = ({ errors, touched, isSubmitting }) => {
   }
   return (
     <Form>
-        <div className="form-group mt-2">
+      <div className="form-group mt-2">
         <label htmlFor="password">Password</label>
         <Field
-            id="password"
-            className={`form-control ${(errors.password && touched.password ? ' is-invalid' : '')}`}
-            name="password"
-            type="password"
+          id="password"
+          className={`form-control ${(errors.password && touched.password ? ' is-invalid' : '')}`}
+          name="password"
+          type="password"
+          disabled={toggle}
         />
         <ErrorMessage component="div" className="invalid-feedback" name="password" />
-        </div>
+      </div>
 
-        <div className="form-group mt-2">
+      <div className="form-group mt-2">
         <label htmlFor="passwordConfirmation">Confirmation</label>
         <Field
-            id="passwordConfirmation"
-            className={`form-control ${(errors.passwordConfirmation && touched.passwordConfirmation ? ' is-invalid' : '')}`}
-            name="passwordConfirmation"
-            type="password"
+          id="passwordConfirmation"
+          className={`form-control ${(errors.passwordConfirmation && touched.passwordConfirmation ? ' is-invalid' : '')}`}
+          name="passwordConfirmation"
+          type="password"
+          disabled={toggle}
         />
         <ErrorMessage component="div" className="invalid-feedback" name="passwordConfirmation" />
-        </div>
+      </div>
 
 
       {
@@ -48,7 +50,6 @@ const RenderForm = ({ errors, touched, isSubmitting }) => {
     </Form>
   )
 }
-
 
 RenderForm.propTypes = {
   errors: PropTypes.shape().isRequired,
