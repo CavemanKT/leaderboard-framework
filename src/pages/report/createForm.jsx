@@ -2,8 +2,16 @@ import React from 'react'
 import CompsLayout from '@/components/layouts/Layout'
 import CreateReportForm from '@/components/forms/report/createReportForm'
 
+const user = {
+  id: 1
+}
 export default function createForm () {
-  
+  // need hook to fetch user/profile id
+
+  const submitReportCreate = (value, id) => {
+    console.log(value, id)
+  }
+
   return (
     <CompsLayout>
         <div className="container mt-5">

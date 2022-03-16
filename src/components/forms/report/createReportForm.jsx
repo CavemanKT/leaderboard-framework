@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as yup from 'yup'
 
-const RenderForm = ({ values, errors, touched, isSubmitting }) => {
+const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handleBlur }) => {
   const [pickedStage1Val, setPickedStage1Val] = useState(null)
+
   const handlePickedStage1Ref = (value) => {
     setPickedStage1Val(value)
     console.log(value)
   }
+
   return (
     <Form>
       <div role="group" aria-labelledby="my-radio-group1">
@@ -74,8 +76,8 @@ const RenderForm = ({ values, errors, touched, isSubmitting }) => {
               <select
                 name="revenueType"
                 value={values.revenueType}
-                // onChange={handleChange}
-                // onBlur={handleBlur}
+                onChange={handleChange}
+                onBlur={handleBlur}
                 style={{ display: 'block' }}
               >
                 <option value="" label="Select a revenue type" />
@@ -92,7 +94,6 @@ const RenderForm = ({ values, errors, touched, isSubmitting }) => {
                 className={`w-50 form-control ${(errors.MRR && touched.MRR ? ' is-invalid' : '')}`}
                 name="MRR"
                 type="number"
-                
               />
               <ErrorMessage component="div" className="invalid-feedback" name="MRR" />
             </div>
@@ -149,13 +150,55 @@ RenderForm.propTypes = {
 }
 
 const createReportFormSchema = yup.object().shape({
-  characterName: yup.string().required('Required'),
+  pickedStage1: yup.string().required('A radio option is required'),
+  pickedStage2: yup.string().when('pickedStage1', {
+    is: 'preRevenue',
+    then: yup.string().required('A radio option is required'),
+    otherwise: yup.string()
+  }),
+  totalWaitingList: yup.number().when('pickedStage1', {
+    is: 'preRevenue',
+    then: yup.number().nullable(false).required('Required'),
+    otherwise: yup.number()
+  }),
+  revenueType: yup.string().when('pickedStage1', {
+    is: 'postRevenue',
+    then: yup.string().required('An option is required'),
+    other: yup.string()
+  }),
+  MRR: yup.number().when('pickedStage1', {
+    is: 'postRevenue',
+    then: yup.number().when('revenueType', {
+      is: 'MRR',
+      then: yup.number().nullable(false).required('Required'),
+      otherwise: yup.number()
+    }),
+    otherwise: yup.number()
+  }),
+  Revenue: yup.number().when('pickedStage1', {
+    is: 'postRevenue',
+    then: yup.number().when('revenueType', {
+      is: 'Revenue',
+      then: yup.number().nullable(false).required('Required'),
+      otherwise: yup.number()
+    }),
+    otherwise: yup.number()
+  }),
+  Q1: yup.string().min(1).required('Required'),
+  Q2: yup.string().min(1).required('Required')
 })
 
 const createReportForm = ({ onSubmit }) => (
   <Formik
     initialValues={{
-      pickedRadio: '',
+      pickedStage1: '',
+      pickedStage2: '',
+      totalWaitingList: '',
+      revenueType: '',
+      MRR: '',
+      Revenue: '',
+      Q1: '',
+      Q2: ''
     }}
     validationSchema={createReportFormSchema}
     onSubmit={onSubmit}
