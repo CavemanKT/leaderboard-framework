@@ -49,6 +49,14 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
                 </label>
               </div>
             </div>
+              {
+                errors.pickedStage2 && (
+                  <div className='text-danger'>
+                    {errors.pickedStage2}
+                  </div>
+                )
+              }
+
             <div className="form-group mt-5">
               <label htmlFor="totalWaitingList">Total waiting list</label>
               <Field
@@ -85,14 +93,21 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
                 <option value="one time purchase" label="one time purchase" />
                 <option value="mixed" label="mixed" />
               </select>
+              {
+                errors.revenueType && touched.revenueType && (
+                  <div className="text-danger">
+                    {errors.revenueType}
+                  </div>
+                )
+              }
             </div>
             <div className="form-group mt-5">
               <label htmlFor="MRR">MRR:</label>
               <Field
+                name="MRR"
                 placeholder="$"
                 id="MRR"
                 className={`w-50 form-control ${(errors.MRR && touched.MRR ? ' is-invalid' : '')}`}
-                name="MRR"
                 type="number"
               />
               <ErrorMessage component="div" className="invalid-feedback" name="MRR" />
@@ -100,10 +115,10 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
             <div className="form-group mt-5">
               <label htmlFor="Revenue">Revenue:</label>
               <Field
+                name="Revenue"
                 placeholder="$"
                 id="Revenue"
                 className={`w-50 form-control ${(errors.Revenue && touched.Revenue ? ' is-invalid' : '')}`}
-                name="Revenue"
                 type="number"
               />
               <ErrorMessage component="div" className="invalid-feedback" name="Revenue" />
@@ -164,25 +179,39 @@ const createReportFormSchema = yup.object().shape({
   revenueType: yup.string().when('pickedStage1', {
     is: 'postRevenue',
     then: yup.string().required('An option is required'),
-    other: yup.string()
+    otherwise: yup.string()
   }),
   MRR: yup.number().when('pickedStage1', {
     is: 'postRevenue',
     then: yup.number().when('revenueType', {
       is: 'MRR',
       then: yup.number().nullable(false).required('Required'),
-      otherwise: yup.number()
-    }),
-    otherwise: yup.number()
+      otherwise: yup.number().when('revenueType', {
+        is: 'one time purchase',
+        then: yup.number(),
+        otherwise: yup.number().when('revenueType', {
+          is: 'mixed',
+          then: yup.number(),
+          otherwise: yup.number().nullable(false).required('Please choose the revenue type.')
+        })
+      })
+    })
   }),
   Revenue: yup.number().when('pickedStage1', {
     is: 'postRevenue',
     then: yup.number().when('revenueType', {
-      is: 'Revenue',
+      is: 'one time purchase',
       then: yup.number().nullable(false).required('Required'),
-      otherwise: yup.number()
-    }),
-    otherwise: yup.number()
+      otherwise: yup.number().when('revenueType', {
+        is: 'mixed',
+        then: yup.number().nullable(false).required('Required'),
+        otherwise: yup.number().when('revenueType', {
+          is: 'MRR',
+          then: yup.number(),
+          otherwise: yup.number().nullable(false).required('Please choose the revenue type.')
+        })
+      })
+    })
   }),
   Q1: yup.string().min(1).required('Required'),
   Q2: yup.string().min(1).required('Required')
