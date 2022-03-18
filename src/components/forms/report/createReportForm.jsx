@@ -22,6 +22,14 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
           <Field type="radio" name="pickedStage1" value="postRevenue" className="m-3" onClick={() => handlePickedStage1Ref('postRevenue')} />
           post-revenue
         </label>
+        {
+          errors.pickedStage1 && touched.pickedStage1 && (
+            <div className='text-danger'>
+              {errors.pickedStage1}
+            </div>
+          )
+        }
+
       </div>
   
       {
@@ -50,7 +58,7 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
               </div>
             </div>
               {
-                errors.pickedStage2 && (
+                errors.pickedStage2 && touched.pickedStage2 && (
                   <div className='text-danger'>
                     {errors.pickedStage2}
                   </div>
@@ -60,7 +68,7 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
             <div className="form-group mt-5">
               <label htmlFor="totalWaitingList">Total waiting list</label>
               <Field
-                placeholder="amount of emails"
+                placeholder="amount of emails collected"
                 id="totalWaitingList"
                 className={`w-50 form-control ${(errors.totalWaitingList && touched.totalWaitingList ? ' is-invalid' : '')}`}
                 name="totalWaitingList"
@@ -69,7 +77,6 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
               <ErrorMessage component="div" className="invalid-feedback" name="totalWaitingList" />
             </div>
           </div>
-
         )
       }
   

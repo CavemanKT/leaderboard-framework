@@ -1,15 +1,16 @@
 import React from 'react'
 import CompsLayout from '@/components/layouts/Layout'
 import CreateReportForm from '@/components/forms/report/createReportForm'
+import useProfile from '@/_hooks/profile'
+import useReport from '@/_hooks/report'
 
-const user = {
-  id: 1
-}
-export default function createForm () {
-  // need hook to fetch user/profile id
+export default function PageCreateForm () {
+  const { profile } = useProfile()
+  const { apiCreateReport } = useReport()
 
-  const submitReportCreate = (value, id) => {
-    console.log(value, id)
+  const submitReportCreate = (value, profileId) => {
+    console.log(value, profileId)
+    apiCreateReport(value, profileId)
   }
 
   return (
@@ -20,7 +21,7 @@ export default function createForm () {
 
         <div className="container mt-1">
           <CreateReportForm 
-            onSubmit={(value) => submitReportCreate(value, user?.id)}
+            onSubmit={(value) => submitReportCreate(value, profile?.id)}
           />
         </div>
     </CompsLayout>

@@ -5,7 +5,7 @@ import fetcher from '@/_services/fetcher'
 import getFormData from '@/_services/getFormData'
 
 export default function useUser() {
-  const { data, error, mutate } = useSWR('/api/my/profile', fetcher, {
+  const { data, error, mutate } = useSWR('/api/my/user', fetcher, {
     shouldRetryOnError: false
   })
 console.log(data)
