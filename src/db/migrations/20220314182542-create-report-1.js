@@ -8,14 +8,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      profitability: {
+      pickedStage1: {
         type: Sequelize.STRING
       },
-      achievement: {
+      weeklyAchievement: {
         type: Sequelize.TEXT
       },
-      plan: {
+      weeklyPlan: {
         type: Sequelize.TEXT
+      },
+      score: {
+        type: Sequelize.INTEGER
       },
       ProfileId: {
         type: Sequelize.INTEGER

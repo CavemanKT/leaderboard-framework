@@ -7,16 +7,20 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    profitability: {
+    pickedStage1: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    achievement: {
+    weeklyAchievement: {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    plan: {
+    weeklyPlan: {
       type: DataTypes.TEXT,
+      allowNull: true
+    },
+    score: {
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     ProfileId: {

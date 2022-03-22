@@ -144,26 +144,26 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
       }
       <div className="mt-5">
         <div className="form-group mt-5">
-          <label htmlFor="Q1">What did you achieve this week?</label>
+          <label htmlFor="weeklyAchievement">What did you achieve this week?</label>
           <Field
-            id="Q1"
-            className={`w-50 form-control ${(errors.Q1 && touched.Q1 ? ' is-invalid' : '')}`}
-            name="Q1"
+            id="weeklyAchievement"
+            className={`w-50 form-control ${(errors.weeklyAchievement && touched.weeklyAchievement ? ' is-invalid' : '')}`}
+            name="weeklyAchievement"
             type="text"
             component="textarea"
           />
-          <ErrorMessage component="div" className="invalid-feedback" name="Q1" />
+          <ErrorMessage component="div" className="invalid-feedback" name="weeklyAchievement" />
         </div>
         <div className="form-group mt-5">
-          <label htmlFor="Q2">What are the plans for next week?</label>
+          <label htmlFor="weeklyPlan">What are the plans for next week?</label>
           <Field
-            id="Q2"
-            className={`w-50 form-control ${(errors.Q2 && touched.Q2 ? ' is-invalid' : '')}`}
-            name="Q2"
+            id="weeklyPlan"
+            className={`w-50 form-control ${(errors.weeklyPlan && touched.weeklyPlan ? ' is-invalid' : '')}`}
+            name="weeklyPlan"
             type="text"
             component="textarea"
           />
-          <ErrorMessage component="div" className="invalid-feedback" name="Q2" />
+          <ErrorMessage component="div" className="invalid-feedback" name="weeklyPlan" />
         </div>
       </div>
       <button className="btn btn-success mt-3" type="submit" disabled={isSubmitting}>Submit</button>
@@ -229,8 +229,8 @@ const createReportFormSchema = yup.object().shape({
       })
     })
   }),
-  Q1: yup.string().min(1).required('Required'),
-  Q2: yup.string().min(1).required('Required')
+  weeklyAchievement: yup.string().min(1).required('Required'),
+  weeklyPlan: yup.string().min(1).required('Required')
 })
 
 const createReportForm = ({ onSubmit }) => (
@@ -242,8 +242,8 @@ const createReportForm = ({ onSubmit }) => (
       revenueType: '',
       MRR: '',
       Revenue: '',
-      Q1: '',
-      Q2: ''
+      weeklyAchievement: '',
+      weeklyPlan: ''
     }}
     validationSchema={createReportFormSchema}
     onSubmit={onSubmit}

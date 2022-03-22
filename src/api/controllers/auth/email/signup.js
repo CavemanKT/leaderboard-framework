@@ -37,10 +37,15 @@ const authEmailSignup = async (req, res) => {
     res.status(403).json('need to fill in the necessary information')
   }
 
+  console.log(user.id)
   const profile = await Profile.create({
-    ...req.body, UserId: user.id
+    domain: req.body.domain,
+    founded: req.body.founded,
+    country: req.body.country,
+    category: req.body.category,
+    UserId: user.id
   }, {
-    attributes: ['domain', 'founded', 'country', 'category', 'revenueModelType']
+    attributes: ['domain', 'founded', 'country', 'category', 'UserId']
   })
   
   console.log(profile)

@@ -8,10 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      mrr: {
+      revenueType:{
+        type: Sequelize.STRING
+      },
+      MRR: {
         type: Sequelize.DECIMAL
       },
-      revenue: {
+      Revenue: {
         type: Sequelize.DECIMAL
       },
       Report1Id: {

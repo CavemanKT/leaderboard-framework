@@ -8,7 +8,6 @@ export default function useProfile() {
         shouldRetryOnError: false
     })
 
-    console.log(data);
 
     return {
         profile: data?.profile || null,

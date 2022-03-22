@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      stage: {
+      pickedStage2: {
         type: Sequelize.STRING
       },
       totalWaitingList: {

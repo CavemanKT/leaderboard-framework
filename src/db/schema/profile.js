@@ -23,14 +23,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    revenueModelType: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    score: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
     UserId: {
       type: DataTypes.INTEGER,
       allowNull: true

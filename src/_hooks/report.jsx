@@ -4,6 +4,9 @@ import axios from 'axios'
 import fetcher from '@/_services/fetcher'
 
 export default function useReport() {
+    const {data, error, mutate} = useSWR('/api/my/report', fetcher, {
+        shouldRetryOnError: false
+    })
 
     const apiCreateReport = (values, profileId) => (new Promise((resolve, reject) => {
         axios({
@@ -27,8 +30,10 @@ export default function useReport() {
     // }
 
     return {
+        report: data?.report || null,
+        isLoading: !error && !data,
+        isError: error,
         apiCreateReport,
-        // apiUpdateReport
     }
 }
 

@@ -1,3 +1,5 @@
+/* eslint-disable space-before-blocks */
+/* eslint-disable linebreak-style */
 /* eslint-disable eqeqeq */
 import nc from 'next-connect'
 
@@ -7,50 +9,105 @@ import session from '@/api/helpers/session'
 import passport from '@/api/helpers/passport'
 
 const attributesPreRevenue = [
-  'stage', 'totalWaitingList', 'Report1Id'
+  'pickedStage2', 'totalWaitingList', 'Report1Id'
 ]
 
 const attributesPostRevenueMrr = [
-  'mrr', 'revenue', 'Report1Id'
+  'MRR', 'Report1Id'
 ]
 
 const attributesPostRevenueRevenue = [
-  'mrr', 'revenue', 'Report1Id'
+  'Revenue', 'Report1Id'
 ]
 
 const reportCreate = async (req, res) => {
+  const {pickedStage1, pickedStage2, weeklyAchievement, weeklyPlan, totalWaitingList, MRR, Revenue, revenueType } = req.body
+  const { profileId} = req.query
   
+  let [factor1, factor2, factor3, factor4] = [0, 0, 0, 0, 0]
+
+  if (pickedStage1 == 'preRevenue'){
+    factor1 = 1
+    if (pickedStage2 == 'idea validation'){
+      factor2 = 2
+    } else if (pickedStage2 == 'product development'){
+      factor2 = 3
+    } else if (pickedStage2 == 'product live'){
+      factor2 = 4
+    }
+    if (totalWaitingList >= 0 && totalWaitingList < 100){
+      factor3 = 4
+    } else if (totalWaitingList >= 100 && totalWaitingList < 500){
+      factor3 = 5
+    } else if (totalWaitingList >= 500 && totalWaitingList > 1500){
+      factor3 = 6
+    }
+  } else if (pickedStage1 == 'postRevenue') {
+    factor1 = 2
+    if (revenueType == 'MRR'){
+      if (MRR >= 0 && MRR < 500){
+        factor4 = 1
+      } else if (MRR >= 500 && MRR < 1000){
+        factor4 = 2
+      } else if (MRR >= 1000){
+        factor4 = 3
+      }
+    }
+    if (revenueType == 'Revenue' || revenueType == 'fixed'){
+      if (Revenue >= 0 && Revenue < 500){
+        factor4 = 1
+      } else if (Revenue >= 500 && Revenue < 1000){
+        factor4 = 2
+      } else if (Revenue >= 1000){
+        factor4 = 3
+      }
+    }
+  }
+
+
+  const sum1 = (factor1 * 10 + factor2 * 20 + factor3 * 30) / (factor1 + factor2 + factor3)
+  const sum2 = (factor1 * 15 + factor4 * 40) / (factor1 + factor4)
+  
+  let sum
+
+  if (pickedStage1 == 'preRevenue'){
+    sum = Math.floor(sum1)
+  } else if (pickedStage1 == 'postRevenue'){
+    sum = Math.floor(sum2)
+  }
+
   const createdReport = await Report1.create({
-    profitability: req.body.pickedStage1,
-    achievement: req.body.Q1,
-    plan: req.body.Q2,
-    ProfileId: req.query.profileId
+    pickedStage1,
+    weeklyAchievement,
+    weeklyPlan,
+    score: sum,
+    ProfileId: profileId
   }, {
-    attributes: ['profitability', 'achievement', 'plan', 'ProfileId']
+    attributes: ['revenueType', 'weeklyAchievement', 'weeklyPlan', 'ProfileId']
   })
 
-  if(req.body.pickedStage1 == 'preRevenue'){
+  if (req.body.pickedStage1 == 'preRevenue'){
     const createdReport2 = await Report2PreRevenue.create({
-      stage: req.body.pickedStage2,
-      totalWaitingList: req.body.totalWaitingList,
+      pickedStage2,
+      totalWaitingList,
       Report1Id: createdReport.id
     }, {
       attributes: attributesPreRevenue
     })
     res.status(200).json({createdReport2})
-
   } else if (req.body.pickedStage1 == 'postRevenue' && req.body.revenueType == 'MRR'){
     const createdReport3 = await Report3PostRevenue.create({
-      mrr: req.body.MRR,
+      revenueType,
+      MRR,
       Report1Id: createdReport.id
     }, {
       attributes: attributesPostRevenueMrr
     })
-
     res.status(200).json({createdReport3})
   } else if (req.body.pickedStage1 == 'postRevenue' && (req.body.revenueType == 'one time purchase' || req.body.revenueType == 'mixed')) {
     const createdReport3 = await Report3PostRevenue.create({
-      revenue: req.body.Revenue,
+      revenueType,
+      Revenue,
       Report1Id: createdReport.id
     }, {
       attributes: attributesPostRevenueRevenue

@@ -1,11 +1,13 @@
 import React from 'react'
-import CompsLayout from '@/components/layouts/Layout'
 import { useRouter } from 'next/router'
-// import useReport from '@/_hooks/report'
+import CompsLayout from '@/components/layouts/Layout'
+import withPrivateRoute from '@/_hocs/withPrivateRoute'
+import useReport from '@/_hooks/report'
 
-export default function report() {
+function PageReport() {
     const router = useRouter()
-    // const { data } = useReport()
+    const { report } = useReport()
+    console.log(report)
     const handleNavigateToCreateReportPage = () =>{
       router.push('/report/createForm')
     }
@@ -15,15 +17,26 @@ export default function report() {
         <div className="container mt-5">
 
             {/* no report */}
-            <div className="d-inline">
-                <button className="btn btn-info m-5" onClick={handleNavigateToCreateReportPage}>Create report</button>
-            </div>
+            {
+              !report && (
+                <div className="d-inline">
+                  <button className="btn btn-info m-5" onClick={handleNavigateToCreateReportPage}>
+                    Create report
+                  </button>
+                </div>
+              )
+            }
+
             {/* got report */}
-            <div className="d-inline">
-                <button className="btn btn-info m-5"> 
+            {
+              report && (
+                <div className="d-inline">
+                  <button className="btn btn-info m-5"> 
                     Update report
-                </button>
-            </div>
+                  </button>
+                </div>
+              )
+            }
 
           <div className="d-flex justify-content-center align-items-center">
             <h4 className="m-5">
@@ -34,3 +47,5 @@ export default function report() {
       </CompsLayout>
     )
 }
+
+export default withPrivateRoute(PageReport)

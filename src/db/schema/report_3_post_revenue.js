@@ -7,11 +7,15 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    mrr: {
+    revenueType: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    MRR: {
       type: DataTypes.DECIMAL,
       allowNull: true
     },
-    revenue: {
+    Revenue: {
       type: DataTypes.DECIMAL,
       allowNull: true
     },

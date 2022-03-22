@@ -20,12 +20,6 @@ module.exports = {
       category: {
         type: Sequelize.STRING
       },
-      revenueModelType: {
-        type: Sequelize.STRING
-      },
-      score: {
-        type: Sequelize.INTEGER
-      },
       UserId: {
         type: Sequelize.INTEGER
       },

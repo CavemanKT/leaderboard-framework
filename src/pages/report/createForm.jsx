@@ -1,11 +1,12 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import CompsLayout from '@/components/layouts/Layout'
 import CreateReportForm from '@/components/forms/report/createReportForm'
 import useProfile from '@/_hooks/profile'
 import useReport from '@/_hooks/report'
-import { useRouter } from 'next/router'
+import withPrivateRoute from '@/_hocs/withPrivateRoute'
 
-export default function PageCreateForm () {
+function PageReportCreateForm () {
   const { profile } = useProfile()
   const { apiCreateReport } = useReport()
   const router = useRouter()
@@ -31,3 +32,5 @@ export default function PageCreateForm () {
     </CompsLayout>
   )
 }
+
+export default withPrivateRoute(PageReportCreateForm)
