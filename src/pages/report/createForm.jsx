@@ -3,14 +3,18 @@ import CompsLayout from '@/components/layouts/Layout'
 import CreateReportForm from '@/components/forms/report/createReportForm'
 import useProfile from '@/_hooks/profile'
 import useReport from '@/_hooks/report'
+import { useRouter } from 'next/router'
 
 export default function PageCreateForm () {
   const { profile } = useProfile()
   const { apiCreateReport } = useReport()
+  const router = useRouter()
 
   const submitReportCreate = (value, profileId) => {
     console.log(value, profileId)
-    apiCreateReport(value, profileId)
+    apiCreateReport(value, profileId).then(() => {
+      router.push('/my/report')
+    })
   }
 
   return (

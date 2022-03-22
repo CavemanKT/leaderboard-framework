@@ -108,28 +108,37 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
                 )
               }
             </div>
-            <div className="form-group mt-5">
-              <label htmlFor="MRR">MRR:</label>
-              <Field
-                name="MRR"
-                placeholder="$"
-                id="MRR"
-                className={`w-50 form-control ${(errors.MRR && touched.MRR ? ' is-invalid' : '')}`}
-                type="number"
-              />
-              <ErrorMessage component="div" className="invalid-feedback" name="MRR" />
-            </div>
-            <div className="form-group mt-5">
-              <label htmlFor="Revenue">Revenue:</label>
-              <Field
-                name="Revenue"
-                placeholder="$"
-                id="Revenue"
-                className={`w-50 form-control ${(errors.Revenue && touched.Revenue ? ' is-invalid' : '')}`}
-                type="number"
-              />
-              <ErrorMessage component="div" className="invalid-feedback" name="Revenue" />
-            </div>
+
+            {
+              values.revenueType == 'MRR' && (
+                <div className="form-group mt-5">
+                  <label htmlFor="MRR">MRR:</label>
+                  <Field
+                    name="MRR"
+                    placeholder="$"
+                    id="MRR"
+                    className={`w-50 form-control ${(errors.MRR && touched.MRR ? ' is-invalid' : '')}`}
+                    type="number"
+                  />
+                  <ErrorMessage component="div" className="invalid-feedback" name="MRR" />
+                </div>
+              )
+            }
+            {
+              (values.revenueType == 'one time purchase' || values.revenueType == 'mixed') && (
+                <div className="form-group mt-5">
+                  <label htmlFor="Revenue">Revenue:</label>
+                  <Field
+                    name="Revenue"
+                    placeholder="$"
+                    id="Revenue"
+                    className={`w-50 form-control ${(errors.Revenue && touched.Revenue ? ' is-invalid' : '')}`}
+                    type="number"
+                  />
+                  <ErrorMessage component="div" className="invalid-feedback" name="Revenue" />
+                </div>
+              )
+            }
           </div>
         )
       }
