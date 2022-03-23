@@ -30,7 +30,7 @@ export default function useReport() {
     // }
 
     return {
-        report: data?.report || null,
+        reports: data?.reports || null,
         isLoading: !error && !data,
         isError: error,
         apiCreateReport,

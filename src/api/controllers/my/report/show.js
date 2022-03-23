@@ -8,13 +8,20 @@ import { Report1 } from '@/db/models'
 const myReport1Show = async (req, res) => {
     const profileId = res.currentUser.Profile.id
 
-    const report = await Report1.findOne({
+    const reports = await Report1.findAll({
         where: {
             ProfileId: profileId
         }
     })
 
-  res.status(200).json({ report })
+    let arrScore = []
+    for(var i = 0; i < reports.length; i++){
+      arrScore.push(reports[i].score)
+    }
+    let arrWeek
+
+
+  res.status(200).json({ reports })
 }
 
 export default nc()

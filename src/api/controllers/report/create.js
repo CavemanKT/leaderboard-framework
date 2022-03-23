@@ -3,7 +3,7 @@
 /* eslint-disable eqeqeq */
 import nc from 'next-connect'
 
-import { Report1, Report2PreRevenue, Report3PostRevenue } from '@/db/models'
+import {Profile, Report1, Report2PreRevenue, Report3PostRevenue } from '@/db/models'
 
 import session from '@/api/helpers/session'
 import passport from '@/api/helpers/passport'
@@ -76,6 +76,14 @@ const reportCreate = async (req, res) => {
     sum = Math.floor(sum2)
   }
 
+  await Profile.update({
+    score: sum
+  }, {
+    where: {
+      id: profileId
+    }
+  })
+
   const createdReport = await Report1.create({
     pickedStage1,
     weeklyAchievement,
@@ -83,7 +91,7 @@ const reportCreate = async (req, res) => {
     score: sum,
     ProfileId: profileId
   }, {
-    attributes: ['revenueType', 'weeklyAchievement', 'weeklyPlan', 'ProfileId']
+    attributes: ['revenueType', 'weeklyAchievement', 'weeklyPlan', 'score', 'ProfileId']
   })
 
   if (req.body.pickedStage1 == 'preRevenue'){
