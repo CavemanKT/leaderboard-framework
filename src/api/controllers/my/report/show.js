@@ -18,8 +18,11 @@ const myReport1Show = async (req, res) => {
     for(var i = 0; i < reports.length; i++){
       arrScore.push(reports[i].score)
     }
-    let arrWeek
-
+    let arrWeek = []
+    for(var j = 0; j < reports.length; j++){
+      arrWeek.push(reports[i].updatedAt)
+    }
+// after converting timestamp to day of the week
 
   res.status(200).json({ reports })
 }
