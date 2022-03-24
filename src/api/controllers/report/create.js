@@ -118,6 +118,7 @@ const reportCreate = async (req, res) => {
   })
 
   console.log(job)
+  
   schedule.gracefulShutdown()
   
   if (req.body.pickedStage1 == 'preRevenue'){
