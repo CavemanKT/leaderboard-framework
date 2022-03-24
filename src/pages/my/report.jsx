@@ -13,13 +13,17 @@ function PageReport() {
       router.push('/report/createForm')
     }
 
+    const handleNavigateToWeeklyUpdatePage = () => {
+      router.push('/report/weeklyUpdateForm')
+    }
+
     return (
       <CompsLayout>
         <div className="container mt-5">
 
             {/* no report */}
             {
-              !reports && (
+              reports.length == 0 && (
                 <div className="d-inline">
                   <button className="btn btn-info m-5" onClick={handleNavigateToCreateReportPage}>
                     Create report
@@ -30,10 +34,10 @@ function PageReport() {
 
             {/* got report */}
             {
-              reports && (
+              reports.length >= 1 && (
                 <div className="d-inline">
-                  <button className="btn btn-info m-5"> 
-                    Update report
+                  <button className="btn btn-info m-5" onClick={handleNavigateToWeeklyUpdatePage}> 
+                    Weekly update
                   </button>
                 </div>
               )
@@ -42,7 +46,7 @@ function PageReport() {
           <div className="d-flex justify-content-center align-items-center">
               {/* the achievement, plan and the trend of the score or trend of MRR/ Revenue */}
           {
-            reports && (
+            reports.length >=1 && (
               <LineChart
                 myReportData={reports}
               />
@@ -50,7 +54,7 @@ function PageReport() {
           }
 
           {
-            !reports && (
+            reports.length ==0 && (
               <h4 className="m-5">
                   Create your report first.
               </h4>

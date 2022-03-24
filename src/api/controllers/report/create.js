@@ -8,6 +8,8 @@ import {Profile, Report1, Report2PreRevenue, Report3PostRevenue } from '@/db/mod
 import session from '@/api/helpers/session'
 import passport from '@/api/helpers/passport'
 
+const schedule = require('node-schedule');
+
 const attributesPreRevenue = [
   'pickedStage2', 'totalWaitingList', 'Report1Id'
 ]
@@ -23,6 +25,8 @@ const attributesPostRevenueRevenue = [
 const reportCreate = async (req, res) => {
   const {pickedStage1, pickedStage2, weeklyAchievement, weeklyPlan, totalWaitingList, MRR, Revenue, revenueType } = req.body
   const { profileId} = req.query
+
+  let rule = null
   
   let [factor1, factor2, factor3, factor4] = [0, 0, 0, 0, 0]
 
@@ -94,6 +98,28 @@ const reportCreate = async (req, res) => {
     attributes: ['revenueType', 'weeklyAchievement', 'weeklyPlan', 'score', 'ProfileId']
   })
 
+  const report = await Report1.findOne({
+    where: {
+      ProfileId: profileId
+    },
+    order: [['updatedAt', 'DESC']]
+  })
+
+  console.log(report, report.updatedAt, report.updatedAt.getDay())
+
+  rule = new schedule.RecurrenceRule()
+  rule.dayOfWeek = report.updatedAt.getDay()
+  rule.hour = 2
+  rule.minute = 58
+  // rule.tz = 'Etc/UTC'
+
+  const job = schedule.scheduleJob(rule, function(){
+    console.log('notified');
+  })
+
+  console.log(job)
+  schedule.gracefulShutdown()
+  
   if (req.body.pickedStage1 == 'preRevenue'){
     const createdReport2 = await Report2PreRevenue.create({
       pickedStage2,
