@@ -8,7 +8,9 @@ import LineChart from '@/components/charts/line-chart'
 function PageReport() {
     const router = useRouter()
     const { reports } = useReport()
-    console.log(reports)
+    
+    if(reports?.length === 0) return null
+
     const handleNavigateToCreateReportPage = () =>{
       router.push('/report/createForm')
     }
@@ -23,7 +25,7 @@ function PageReport() {
 
             {/* no report */}
             {
-              reports.length == 0 && (
+              reports?.length == 0 && (
                 <div className="d-inline">
                   <button className="btn btn-info m-5" onClick={handleNavigateToCreateReportPage}>
                     Create report
@@ -34,7 +36,7 @@ function PageReport() {
 
             {/* got report */}
             {
-              reports.length >= 1 && (
+              reports?.length >= 1 && (
                 <div className="d-inline">
                   <button className="btn btn-info m-5" onClick={handleNavigateToWeeklyUpdatePage}> 
                     Weekly update
@@ -46,7 +48,7 @@ function PageReport() {
           <div className="d-flex justify-content-center align-items-center">
               {/* the achievement, plan and the trend of the score or trend of MRR/ Revenue */}
           {
-            reports.length >=1 && (
+            reports?.length >=1 && (
               <LineChart
                 myReportData={reports}
               />
@@ -54,7 +56,7 @@ function PageReport() {
           }
 
           {
-            reports.length ==0 && (
+            reports?.length ==0 && (
               <h4 className="m-5">
                   Create your report first.
               </h4>

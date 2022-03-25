@@ -7,6 +7,8 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 const LineChart = ({ myReportData }) => {
     console.log(myReportData)
+    if(myReportData.length === 0) return null
+
   const [collections, setCollections] = useState({
     series: [{
       name: 'score chart',
@@ -36,7 +38,7 @@ const LineChart = ({ myReportData }) => {
         curve: 'straight'
       },
       title: {
-        text: `need a name for the chart`,
+        text: `need ${myReportData[0]?.ProfileId} name for the chart`,
         align: 'left'
       },
       grid: {
@@ -53,52 +55,52 @@ const LineChart = ({ myReportData }) => {
 
   // figured out how to do it.
 
-//   useEffect(() => {
+  useEffect(() => {
 
-//     const newData = []   // get the collections of data
-//     setCollections(
-//       {
-//         series: [{
-//           name: 'score',
-//           data: newData
-//         }],
-//         options: {
-//           chart: {
-//             height: 350,
-//             type: 'line',
-//             zoom: {
-//               enabled: false
-//             }
-//           },
-//           dataLabels: {
-//             enabled: false
-//           },
-//           stroke: {
-//             curve: 'straight'
-//           },
-//           title: {
-//             text: `trend of score`,
-//             align: 'left'
-//           },
-//           grid: {
-//             row: {
-//               colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-//               opacity: 0.5
-//             }
-//           },
-//           xaxis: {
-//             categories: ['Season1', 'Season2', 'Season3', 'Season4'] // x-axis
-//           }
-//         }
-//       }
-//     )
-//   }, [myReportData.id])
+    const newData = []   // get the collections of data
+    setCollections(
+      {
+        series: [{
+          name: 'score',
+          data: newData
+        }],
+        options: {
+          chart: {
+            height: 350,
+            type: 'line',
+            zoom: {
+              enabled: false
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            curve: 'straight'
+          },
+          title: {
+            text: `need ${myReportData[0].ProfileId} name for the chart`,
+            align: 'left'
+          },
+          grid: {
+            row: {
+              colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+              opacity: 0.5
+            }
+          },
+          xaxis: {
+            categories: ['Season1', 'Season2', 'Season3', 'Season4'] // x-axis
+          }
+        }
+      }
+    )
+  }, [myReportData[0]?.ProfileId])
 
   return (
     <div id="chart">
       <Chart
-        options={collections.options}
-        series={collections.series}
+        options={collections?.options}
+        series={collections?.series}
         type="line"
         height={350}
       />

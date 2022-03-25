@@ -67,6 +67,7 @@ module.exports = {
                 country: faker.address.country(),
                 category: faker.name.jobType(),
                 score: 12 + i,
+                weeklyReportFilled: false,
                 UserId: i
             })
         }

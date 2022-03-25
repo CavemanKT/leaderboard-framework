@@ -107,19 +107,24 @@ const reportCreate = async (req, res) => {
 
   console.log(report, report.updatedAt, report.updatedAt.getDay())
 
+  // notification timer
   rule = new schedule.RecurrenceRule()
-  rule.dayOfWeek = report.updatedAt.getDay()
-  rule.hour = 2
-  rule.minute = 58
+  // rule.dayOfWeek = report.updatedAt.getDay()
+  // rule.hour = 3
+  // rule.minute = 34
+  rule.second = 0
   // rule.tz = 'Etc/UTC'
 
   const job = schedule.scheduleJob(rule, function(){
-    console.log('notified');
+    console.log(`${profileId} notified`);
+    stopJob()
   })
 
-  console.log(job)
+  console.log('job is initiated.')
   
-  schedule.gracefulShutdown()
+  const stopJob = () => {
+    schedule.gracefulShutdown()
+  }
   
   if (req.body.pickedStage1 == 'preRevenue'){
     const createdReport2 = await Report2PreRevenue.create({

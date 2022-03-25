@@ -23,6 +23,9 @@ module.exports = {
       score:{
         type: Sequelize.INTEGER
       },
+      weeklyReportFilled: {
+        type: Sequelize.BOOLEAN
+      },
       UserId: {
         type: Sequelize.INTEGER
       },

@@ -25,7 +25,7 @@ const allProfilesShow = async (req, res) => {
         limit,
         offset
     })
-    console.log(profiles.rows[0])
+    // console.log(profiles.rows[0])
     res.status(200).json({profiles: profiles.rows, 
         filter: {q, page, limit, offset, totalPage: Math.ceil(profiles.count / limit)}
     })
