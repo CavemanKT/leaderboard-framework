@@ -10,7 +10,7 @@ import Popover from 'react-bootstrap/Popover'
 import Button from 'react-bootstrap/Button'
 import ModalsSignup from '@/components/modals/auth/signup'
 import ModalsLogin from '@/components/modals/auth/login'
-
+import { toast } from 'react-toastify';
 // img
 
 // user
@@ -35,6 +35,26 @@ export default function CompsLayoutsNavbar() {
 
   const handleSignupSubmit = (values) => {
     apiSignup(values).then(() => {
+      toast.success('Signed up successfully', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+    }).catch(() => {
+      toast.error('Something is wrong, please contain administrator with email provided below', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }).finally(() => {
       setOpenSignupModal(false)
     })
   }
@@ -49,6 +69,26 @@ export default function CompsLayoutsNavbar() {
 
   const handleLoginSubmit = (values) => {
     apiLogin(values).then(() => {
+      toast.success('Logged in successfully', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }).catch(() => {
+      toast.error('Something is wrong, please type again', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }).finally(() => {
       setOpenLoginModal(false)
     })
   }
@@ -60,7 +100,17 @@ export default function CompsLayoutsNavbar() {
 
   const handleLogout = (event) => {
     handleClick(event)
-    apiLogout()
+    apiLogout().then(() => {
+      toast.success('You have logged out, wish to see you back', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    })
   }
 
 
@@ -104,18 +154,40 @@ export default function CompsLayoutsNavbar() {
                       <Popover id="popover-contained">
                         <Popover.Body>
                           <ul className="list-unstyled text-center">
-                            <li className="mb-2 rounded-3 btn-info">
-                              <Nav.Link as={Link} href="/my/account" onClick={handleClick}><a className="btn">account</a></Nav.Link>
-                            </li>
-                            <li className="mb-2 rounded-3 btn-info">
-                              <Nav.Link as={Link} href="/my/profile" onClick={handleClick}><a className="btn">profile</a></Nav.Link>
-                            </li>
-                            <li className="mb-2 rounded-3 btn-info">
-                              <Nav.Link as={Link} href="/my/report" onClick={handleClick}><a className="btn">report</a></Nav.Link>
-                            </li>
-                            <li className="mb-2 rounded-3 btn-info">
-                              <Nav.Link as={Link} href="/my/cms" onClick={handleClick}><a className="btn">cms</a></Nav.Link>
-                            </li>
+                          {
+                            user?.role == 'user' && (
+                              <>
+                                <li className="mb-2 rounded-3 btn-info">
+                                  <Nav.Link as={Link} href="/my/account" onClick={handleClick}><a className="btn">account</a></Nav.Link>
+                                </li>
+                                <li className="mb-2 rounded-3 btn-info">
+                                  <Nav.Link as={Link} href="/my/profile" onClick={handleClick}><a className="btn">profile</a></Nav.Link>
+                                </li>
+                                <li className="mb-2 rounded-3 btn-info">
+                                  <Nav.Link as={Link} href="/my/report" onClick={handleClick}><a className="btn">report</a></Nav.Link>
+                                </li>
+                              </>
+                            )
+                          }
+                            {
+                              user?.role == 'admin' && (
+                                <>
+                                  <li className="mb-2 rounded-3 btn-info">
+                                    <Nav.Link as={Link} href="/admin/account" onClick={handleClick}><a className="btn">account</a></Nav.Link>
+                                  </li>
+                                  <li className="mb-2 rounded-3 btn-info">
+                                    <Nav.Link as={Link} href="/admin/verification" onClick={handleClick}><a className="btn">verification</a></Nav.Link>
+                                  </li>
+                                  <li className="mb-2 rounded-3 btn-info">
+                                    <Nav.Link as={Link} href="/admin/report" onClick={handleClick}><a className="btn">report</a></Nav.Link>
+                                  </li>
+                                  <li className="mb-2 rounded-3 btn-info">
+                                    <Nav.Link as={Link} href="/admin/contact" onClick={handleClick}><a className="btn">contact</a></Nav.Link>
+                                  </li>
+                                </>
+                              )
+                            }
+
                             <li className="mb-2 rounded-3 btn-light">
                               <Nav.Link className="btn" onClick={handleLogout}>Log out</Nav.Link>
                             </li>

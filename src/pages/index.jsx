@@ -54,7 +54,7 @@ console.log(allProfiles, profile)
           </div>
 
         {
-          profile && (
+          profile?.id && (
             <div className="d-flex justify-content-around">
               {/* the search bar is using tailwind css at the moment */}
               <form id="channel-form" onSubmit={(e) => handleDomainSearchSubmit(e, domainName)}>
@@ -225,3 +225,5 @@ console.log(allProfiles, profile)
 //     }
 //   }
 // }
+
+// later useSWR to fetch data

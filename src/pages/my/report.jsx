@@ -19,6 +19,10 @@ function PageReport() {
       router.push('/report/weeklyUpdateForm')
     }
 
+    const handleNavigateToEditReportPage = () =>{
+      router.push('/report/reportlist')   // reportlist or directly to edit page to update the most recent report ?
+    }
+
     return (
       <CompsLayout>
         <div className="container mt-5">
@@ -49,7 +53,7 @@ function PageReport() {
             {
               reports?.length >= 1 && (
                 <div className="d-inline">
-                  <button className="btn btn-info m-5">
+                  <button className="btn btn-info m-5" onClick={handleNavigateToEditReportPage}>
                   {/* modify the recent report? or all the reports? */}
                     Modify report
                   </button>
