@@ -31,6 +31,7 @@ export default function useReport() {
 
     return {
         reports: data?.reports || null,
+        chartData: data?.chartData || null,
         isLoading: !error && !data,
         isError: error,
         apiCreateReport,

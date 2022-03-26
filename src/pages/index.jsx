@@ -1,6 +1,7 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/jsx-indent */
 import { useState, useRef } from 'react'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import Table from 'react-bootstrap/Table'
@@ -13,13 +14,10 @@ import useProfile from '@/_hooks/profile'
 import useProfiles from '@/_hooks/allProfiles'
 
 const row = ['DOMAIN', 'FOUNDED', 'COUNTRY', 'CATEGORY', 'SCORE']
-const domain = ['https://itch.io', 'https://google.com', 'https://figma.com', 'https://facebook.com', 'https://youtube.com']
-const founded = ['1999', '2000', '2022', '2002', '2005']
-const country = ['US', 'UK', 'Mexico', 'Ukraine', 'Russia']
-const category = ['education', 'household', 'internet', 'crypto', 'energy']
-const score = [12, 56, 78, 97, 76]
+
 
 export default function Home() {
+  const router = useRouter()
   const [domainName, setDomainName] = useState(null)
   const ref = useRef(null)
   const [show, setShow] = useState(false)
@@ -27,7 +25,13 @@ export default function Home() {
   const [someList, setSomeList] = useState(null)
   const {profile} = useProfile()
   const { allProfiles } = useProfiles()
-console.log(allProfiles)
+
+console.log(allProfiles, profile)
+
+  if(profile && !profile?.weeklyReportFilled){
+    router.push('/report/weeklyUpdateForm')
+  }
+
   const handleDomainSearchSubmit = (e, domainName) => {
 
   }
@@ -193,3 +197,31 @@ console.log(allProfiles)
     </CompsLayout>
   )
 }
+
+
+// export async function getStaticProps() {
+//   const limit = 3
+//   const offset = 0
+//   const profiles = await Profile.findAndCountAll({
+//     order: [['createdAt', 'DESC']],
+//     limit,
+//     offset
+//   })
+
+//   console.log(profiles)
+//   if(!profiles){
+//     return {
+//       notFound: true
+//     }
+//   }
+
+
+//   return {
+//     props: {
+//       fiveProfiles: profiles   // can't be serialized with [object, object]
+//       // fallback: {
+//       //   [`/api/allProfiles`]: { fiveProfiles: JSON.stringify(profiles.rows) }
+//       // }
+//     }
+//   }
+// }

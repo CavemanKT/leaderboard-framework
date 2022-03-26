@@ -7,7 +7,7 @@ import LineChart from '@/components/charts/line-chart'
 
 function PageReport() {
     const router = useRouter()
-    const { reports } = useReport()
+    const { reports, chartData } = useReport()
     
     if(reports?.length === 0) return null
 
@@ -45,12 +45,24 @@ function PageReport() {
               )
             }
 
+            {/* got report & modify report data */}
+            {
+              reports?.length >= 1 && (
+                <div className="d-inline">
+                  <button className="btn btn-info m-5">
+                  {/* modify the recent report? or all the reports? */}
+                    Modify report
+                  </button>
+                </div>
+              )
+            }
+
           <div className="d-flex justify-content-center align-items-center">
               {/* the achievement, plan and the trend of the score or trend of MRR/ Revenue */}
           {
-            reports?.length >=1 && (
+            reports?.length >=1 && chartData?.scores[0] && (
               <LineChart
-                myReportData={reports}
+                chartData={chartData}
               />
             )
           }

@@ -8,7 +8,6 @@ import {Profile, Report1, Report2PreRevenue, Report3PostRevenue } from '@/db/mod
 import session from '@/api/helpers/session'
 import passport from '@/api/helpers/passport'
 
-const schedule = require('node-schedule');
 
 const attributesPreRevenue = [
   'pickedStage2', 'totalWaitingList', 'Report1Id'
@@ -106,25 +105,6 @@ const reportCreate = async (req, res) => {
   })
 
   console.log(report, report.updatedAt, report.updatedAt.getDay())
-
-  // notification timer
-  rule = new schedule.RecurrenceRule()
-  // rule.dayOfWeek = report.updatedAt.getDay()
-  // rule.hour = 3
-  // rule.minute = 34
-  rule.second = 0
-  // rule.tz = 'Etc/UTC'
-
-  const job = schedule.scheduleJob(rule, function(){
-    console.log(`${profileId} notified`);
-    stopJob()
-  })
-
-  console.log('job is initiated.')
-  
-  const stopJob = () => {
-    schedule.gracefulShutdown()
-  }
   
   if (req.body.pickedStage1 == 'preRevenue'){
     const createdReport2 = await Report2PreRevenue.create({

@@ -24,7 +24,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       weeklyReportFilled: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       UserId: {
         type: Sequelize.INTEGER

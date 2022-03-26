@@ -5,9 +5,9 @@ import dynamic from 'next/dynamic'
 
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
-const LineChart = ({ myReportData }) => {
-    console.log(myReportData)
-    if(myReportData.length === 0) return null
+const LineChart = ({ chartData }) => {
+    console.log(chartData)
+    if(chartData?.score?.length == 0) return null
 
   const [collections, setCollections] = useState({
     series: [{
@@ -38,7 +38,7 @@ const LineChart = ({ myReportData }) => {
         curve: 'straight'
       },
       title: {
-        text: `need ${myReportData[0]?.ProfileId} name for the chart`,
+        text: `need a name for the chart`,
         align: 'left'
       },
       grid: {
@@ -57,7 +57,7 @@ const LineChart = ({ myReportData }) => {
 
   useEffect(() => {
 
-    const newData = []   // get the collections of data
+    const newData = chartData?.scores   // get the collections of data
     setCollections(
       {
         series: [{
@@ -69,7 +69,7 @@ const LineChart = ({ myReportData }) => {
             height: 350,
             type: 'line',
             zoom: {
-              enabled: false
+              enabled: true
             }
           },
           dataLabels: {
@@ -79,7 +79,7 @@ const LineChart = ({ myReportData }) => {
             curve: 'straight'
           },
           title: {
-            text: `need ${myReportData[0].ProfileId} name for the chart`,
+            text: `scores grouped by ${chartData?.scores?.length} consecutive weeks`,
             align: 'left'
           },
           grid: {
@@ -89,21 +89,25 @@ const LineChart = ({ myReportData }) => {
             }
           },
           xaxis: {
-            categories: ['Season1', 'Season2', 'Season3', 'Season4'] // x-axis
+            categories: chartData?.categories // x-axis
           }
         }
       }
     )
-  }, [myReportData[0]?.ProfileId])
+  }, [chartData?.scores[0]])
 
   return (
-    <div id="chart">
-      <Chart
-        options={collections?.options}
-        series={collections?.series}
-        type="line"
-        height={350}
-      />
+    <div id="apex-chart" className='container'>
+      {
+        chartData?.scores?.length >= 1 && (
+          <Chart
+            options={collections?.options}
+            series={collections?.series}
+            type="line"
+            height={350}
+          />
+        )
+      }
     </div>
   )
 }

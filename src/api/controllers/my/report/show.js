@@ -1,3 +1,5 @@
+/* eslint-disable space-before-blocks */
+/* eslint-disable indent */
 import nc from 'next-connect'
 
 import session from '@/api/helpers/session'
@@ -17,8 +19,21 @@ const myReport1Show = async (req, res) => {
 
     // console.log('updatedAt11111111111111111111111111111', reports, reports[0].updatedAt, reports[0].updatedAt.getDay())
 
+    let categories = []
+    let scores = []
 
-  res.status(200).json({ reports })
+    for(var i = 0; i < reports.length; i++){
+      categories.push(`Week ${i + 1}`)
+      scores.push(reports[i].score)
+    }
+
+    let chartData = {
+      scores,
+      categories
+    }
+    console.log(chartData)
+
+  res.status(200).json({ reports, chartData })
 }
 
 export default nc()
