@@ -2,13 +2,13 @@ import useSWR from 'swr'
 import axios from 'axios'
 
 import fetcher from '@/_services/fetcher'
-import getFormData from '@/_services/getFormData'
 
 export default function useUser() {
   const { data, error, mutate } = useSWR('/api/my/user', fetcher, {
-    shouldRetryOnError: false
+    shouldRetryOnError: false,
+    revalidateOnFocus: true
   })
-console.log(data)
+
   const apiSignup = (values) => (new Promise((resolve, reject) => {
     axios({
       method: 'POST',
@@ -52,7 +52,6 @@ console.log(data)
   }))
 
   const apiAccountUpdate = (values, id) => (new Promise((resolve, reject) => {
-    console.log(values)
     axios({
       method: 'PUT',
       url: `/api/my/account/${id}`,
@@ -69,7 +68,6 @@ console.log(data)
   }))
 
   const apiPasswordUpdate = (values, id) => (new Promise((resolve, reject) => {
-    console.log(values)
     axios({
       method: 'PUT',
       url: `/api/my/password/${id}`,

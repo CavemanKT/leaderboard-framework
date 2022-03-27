@@ -4,13 +4,13 @@ import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 
 import { useState, useRef } from 'react'
+import { toast } from 'react-toastify';
 
 import Overlay from 'react-bootstrap/Overlay'
 import Popover from 'react-bootstrap/Popover'
 import Button from 'react-bootstrap/Button'
 import ModalsSignup from '@/components/modals/auth/signup'
 import ModalsLogin from '@/components/modals/auth/login'
-import { toast } from 'react-toastify';
 // img
 
 // user

@@ -7,7 +7,6 @@ import { Profile } from '@/db/models'
 
 const myProfileUpdate2 = async (req, res) => {
     const profileId = res.currentUser.Profile.id
-    console.log(profileId)
 
     const profile = await Profile.update({
         country: req.body.country,

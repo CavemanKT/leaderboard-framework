@@ -20,7 +20,7 @@ function PageReport() {
     }
 
     const handleNavigateToEditReportPage = () =>{
-      router.push('/report/reportlist')   // reportlist or directly to edit page to update the most recent report ?
+      router.push('/report/PageEditLatestReport')   // reportlist or directly to edit page to update the most recent report ?
     }
 
     return (

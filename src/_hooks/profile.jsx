@@ -5,7 +5,8 @@ import fetcher from '@/_services/fetcher'
 
 export default function useProfile() {
     const {data, error, mutate} = useSWR('/api/my/profile/profile1', fetcher, {
-        shouldRetryOnError: false
+        shouldRetryOnError: false,
+        revalidateOnFocus: true,
     })
 
     const apiWeeklyReportFilledSchedule = () => (new Promise((resolve, reject) => {

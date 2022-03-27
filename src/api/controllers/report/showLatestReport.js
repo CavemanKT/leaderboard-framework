@@ -10,27 +10,22 @@ import { Report1 } from '@/db/models'
 const myReport1Show = async (req, res) => {
     const profileId = res.currentUser.Profile.id
 
-    const reports = await Report1.findAll({
+    const report = await Report1.findOne({
         where: {
             ProfileId: profileId
         },
-        order: [['updatedAt', 'DESC'] ]
+        include: [
+            {
+                association: Report1.Report2PreRevenue
+            },
+            {
+                association: Report1.Report3PostRevenue
+            }
+        ],
+        order: [['updatedAt', 'DESC']]
     })
 
-    let categories = []
-    let scores = []
-
-    for(var i = 0; i < reports.length; i++){
-      categories.push(`Week ${i + 1}`)
-      scores.push(reports[i].score)
-    }
-
-    let chartData = {
-      scores,
-      categories
-    }
-
-  res.status(200).json({ reports, chartData })
+    res.status(200).json({ report })
 }
 
 export default nc()

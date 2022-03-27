@@ -1,12 +1,13 @@
 import React, {useState} from 'react'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 import CompsLayout from '@/components/layouts/Layout'
 import FormEditProfile from '@/components/forms/profile/editProfile'
 import FormEditProfile2 from '@/components/forms/profile/editProfile2'
 import useProfile from '@/_hooks/profile'
-import { toast } from 'react-toastify'
+import withPrivateRoute from '@/_hocs/withPrivateRoute'
 
-export default function PageProfileEdit () {
+function PageProfileEdit () {
     const { profile, apiProfileUpdate1, apiProfileUpdate2 } = useProfile()
     const [switchEditProfile2, setSwitchEditProfile2] = useState(false)
     const [switchEditProfile1, setSwitchEditProfile1] = useState(true)
@@ -15,7 +16,6 @@ export default function PageProfileEdit () {
     if(!profile) return null
 
     const handleSubmitEditProfile1 = (values) => {
-        console.log(values)
         apiProfileUpdate1(values).then(() => {
             router.push('/')
             toast.success('Profile is updated successfully', {
@@ -93,3 +93,5 @@ export default function PageProfileEdit () {
     </CompsLayout>
   )
 }
+
+export default withPrivateRoute(PageProfileEdit)

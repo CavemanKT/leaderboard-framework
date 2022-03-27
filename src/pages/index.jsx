@@ -2,8 +2,6 @@
 /* eslint-disable react/jsx-indent */
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/router'
-import Head from 'next/head'
-import Image from 'next/image'
 import Table from 'react-bootstrap/Table'
 import Overlay from 'react-bootstrap/Overlay'
 import Popover from 'react-bootstrap/Popover'
@@ -11,6 +9,7 @@ import Button from '@mui/material/Button'
 import { Col, Row, Form } from 'react-bootstrap'
 import CompsLayout from '@/components/layouts/Layout'
 import useProfile from '@/_hooks/profile'
+import useUser from '@/_hooks/user'
 import useProfiles from '@/_hooks/allProfiles'
 
 const row = ['DOMAIN', 'FOUNDED', 'COUNTRY', 'CATEGORY', 'SCORE']
@@ -23,12 +22,11 @@ export default function Home() {
   const [show, setShow] = useState(false)
   const [target, setTarget] = useState(null)
   const [someList, setSomeList] = useState(null)
+  const { user } = useUser()
   const {profile} = useProfile()
   const { allProfiles } = useProfiles()
 
-console.log(allProfiles, profile)
-
-  if(profile && !profile?.weeklyReportFilled){
+  if(user && user?.Profile && !user?.Profile?.weeklyReportFilled){
     router.push('/report/weeklyUpdateForm')
   }
 

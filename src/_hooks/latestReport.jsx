@@ -3,34 +3,32 @@ import axios from 'axios'
 
 import fetcher from '@/_services/fetcher'
 
-export default function useReport() {
-    const {data, error, mutate} = useSWR('/api/my/report', fetcher, {
+export default function useLatestReport(id) {
+    const {data, error, mutate} = useSWR(`/api/my/report/${id}`, fetcher, {
         shouldRetryOnError: false
     })
 
-    const apiCreateReport = (values, profileId) => (new Promise((resolve, reject) => {
+    const apiModifyLatestReport = (values, profileId) => (new Promise((resolve, reject) => {
         axios({
-            method: 'POST',
+            method: 'PUT',
             url: `/api/my/report/${profileId}`,
             data: values,
             withCredentials: true
         }).then((resp) => {
             resolve(resp)
-            console.log(resp)
+            console.log(resp.data)
         }).catch((err) => {
             reject(err)
-            console.log(err);
-            window.location.reload(false);
+            console.log(err)
         })
-    }))
+    }))    
     
 
     return {
-        reports: data?.reports || null,
-        chartData: data?.chartData || null,
+        report: data?.report || null,
         isLoading: !error && !data,
         isError: error,
-        apiCreateReport,
+        apiModifyLatestReport
     }
 }
 
