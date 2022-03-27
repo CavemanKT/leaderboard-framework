@@ -173,10 +173,10 @@ export default function CompsLayoutsNavbar() {
                               user?.role == 'admin' && (
                                 <>
                                   <li className="mb-2 rounded-3 btn-info">
-                                    <Nav.Link as={Link} href="/admin/account" onClick={handleClick}><a className="btn">account</a></Nav.Link>
+                                    <Nav.Link as={Link} href="/admin/PagePasswordUpdate" onClick={handleClick}><a className="btn">change password</a></Nav.Link>
                                   </li>
                                   <li className="mb-2 rounded-3 btn-info">
-                                    <Nav.Link as={Link} href="/admin/verification" onClick={handleClick}><a className="btn">verification</a></Nav.Link>
+                                    <Nav.Link as={Link} href="/admin/verification" onClick={handleClick}><a className="btn">verification</a></Nav.Link> 
                                   </li>
                                   <li className="mb-2 rounded-3 btn-info">
                                     <Nav.Link as={Link} href="/admin/report" onClick={handleClick}><a className="btn">report</a></Nav.Link>

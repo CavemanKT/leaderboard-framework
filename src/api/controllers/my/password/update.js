@@ -13,7 +13,7 @@ const myPasswordUpdate = async (req, res) => {
     return user
   }
 
-  const [id] = req.query.id
+  const { id } = req.query
 
   const passwordHash = await bcrypt.hash(req.body.password, 10)
 
