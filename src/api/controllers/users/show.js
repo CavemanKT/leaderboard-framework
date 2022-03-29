@@ -20,8 +20,6 @@ const allUsersShow = async (req, res) => {
         order: [['id', 'ASC']],
     })
     
-    console.log(users.rows[0])
-
     res.status(200).json({
         users: users.rows, 
         filter: {q}

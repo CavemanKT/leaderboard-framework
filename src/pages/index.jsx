@@ -12,6 +12,7 @@ import useProfile from '@/_hooks/profile'
 import useUser from '@/_hooks/user'
 import useProfiles from '@/_hooks/allProfiles'
 
+
 const row = ['DOMAIN', 'FOUNDED', 'COUNTRY', 'CATEGORY', 'SCORE']
 
 
@@ -198,30 +199,18 @@ export default function Home() {
 
 
 // export async function getStaticProps() {
-//   const limit = 3
-//   const offset = 0
-//   const profiles = await Profile.findAndCountAll({
-//     order: [['createdAt', 'DESC']],
-//     limit,
-//     offset
+//   const someProfiles = await Profile.findAndCountAll({
+//     order:[
+//       ['updatedAt', 'DESC']
+//     ],
+//     limit: 8,
+//     offset: 0
 //   })
 
-//   console.log(profiles)
-//   if(!profiles){
-//     return {
-//       notFound: true
-//     }
-//   }
-
-
 //   return {
-//     props: {
-//       fiveProfiles: profiles   // can't be serialized with [object, object]
-//       // fallback: {
-//       //   [`/api/allProfiles`]: { fiveProfiles: JSON.stringify(profiles.rows) }
-//       // }
+//     props:{
+//       someProfiles
 //     }
 //   }
 // }
 
-// later useSWR to fetch data

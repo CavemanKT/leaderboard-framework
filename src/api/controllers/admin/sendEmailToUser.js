@@ -3,25 +3,34 @@ import nc from 'next-connect'
 import session from '@/api/helpers/session'
 import getCurrentUserByToken from '@/api/helpers/getCurrentUserByToken'
 import authenticateUser from '@/api/helpers/authenticateUser'
-let nodemailer = require('nodemailer');
-import { User } from '@/db/models'
+
+require('dotenv').config();
+
+const nodemailer = require('nodemailer');
 
 const sendEmailToUser = async (req, res) => {
-    const {recipient, sender, title, content, password } = req.body
-    
+    const {recipient, sender, title, content, senderPassword } = req.body
+    const {SECRET_GMAIL_ACCOUNT, SECRET_GMAIL_RECIPIENT} = process.env
+
     var transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
+        port: 587,
         secure: false,
         requireTLS: true,
         auth: {
+            // type: login    <--   default
+            // type: OAuth2,
             user: sender,
-            pass: password
+            pass: senderPassword,
+            // clientId: "CLIENT_ID_HERE",
+            // clientSecret: "CLIENT_SECRET_HERE",
+            // refreshToken: "REFRESH_TOKEN_HERE"   
         }
     });
 
     var mailOptions = {
         from: sender,
-        to: recipient,
+        to: SECRET_GMAIL_RECIPIENT,
         subject: title,
         text: content
     };

@@ -8,7 +8,7 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
       <div className="form-group">
         <label htmlFor="sender">From: </label>
         <Field
-          id="url"
+          id="sender"
           className={`form-control ${(errors.sender && touched.sender ? ' is-invalid' : '')}`}
           name="sender"
           type="email"
@@ -19,9 +19,21 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
       </div>
 
       <div className="form-group">
+        <label htmlFor="senderPassword">Password: </label>
+        <Field
+          id="senderPassword"
+          className={`form-control ${(errors.senderPassword && touched.senderPassword ? ' is-invalid' : '')}`}
+          name="senderPassword"
+          type="password"
+        />
+
+        <ErrorMessage component="div" className="invalid-feedback" name="senderPassword" />
+      </div>
+
+      <div className="form-group">
         <label htmlFor="recipient">To: </label>
         <Field
-          id="url"
+          id="recipient"
           className={`form-control ${(errors.recipient && touched.recipient ? ' is-invalid' : '')}`}
           name="recipient"
           type="email"
@@ -48,7 +60,8 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
           id="content"
           className={`form-control ${(errors.content && touched.content ? ' is-invalid' : '')}`}
           name="content"
-          type="textarea"
+          as="textarea"
+          type="text"
         />
         <ErrorMessage component="div" className="invalid-feedback" name="content" />
       </div>
@@ -64,23 +77,24 @@ RenderForm.propTypes = {
 }
 
 const mailboxSchema = yup.object().shape({
-  recipient: yup.string().email().required('Required'),
+  senderPassword: yup.string().required('Required'),
   title: yup.string().required('Required'),
   content: yup.string().required('Requied')
 })
 
 const FormMailbox = ({ onSubmit, recipient, sender }) => (
-        <Formik
-            initialValues={{
-            sender,
-            recipient,
-            title: '',
-            content: ''
-            }}
-            validationSchema={mailboxSchema}
-            onSubmit={onSubmit}
-            component={RenderForm}
-        />
+      <Formik
+        initialValues={{
+        sender,
+        senderPassword: '',
+        recipient,
+        title: '',
+        content: ''
+        }}
+        validationSchema={mailboxSchema}
+        onSubmit={onSubmit}
+        component={RenderForm}
+      />
 )
 
 FormMailbox.propTypes = {
