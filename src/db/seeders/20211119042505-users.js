@@ -46,22 +46,35 @@ module.exports = {
 
         for (let i = 1; i <= 10; i++) {
             await User.create({
+                id: i,
                 email: `${i}@test.com`,
                 passwordHash,
                 registrationType: 'email',
-                role: 'user'
+                role: 'user',
             })
         }
+        
+        await User.create({
+            id: 11,
+            email: `12@test.com`,
+            passwordHash,
+            registrationType: 'email',
+            role: 'user',
+            verified: true
+        })
 
         await User.create({
+            id: 12,
             email: `admin@test.com`,
             passwordHash,
             registrationType: 'email',
-            role: 'admin'
+            role: 'admin',
+            verified: true
         })
 
         for (let i = 1; i <= 10; i++) {
             await Profile.create({
+                id: i,
                 domain: `https://www.${i}@test.com`,
                 founded: 1200 + i,
                 country: faker.address.country(),
@@ -71,8 +84,19 @@ module.exports = {
             })
         }
 
-        for (let j = 1; j <= 10; j++ ){
-            for ( let i = 1; i <= 10; i++ ) {
+            await Profile.create({
+                id: 11,
+                domain: `https://www.11@test.com`,
+                founded: 1200,
+                country: faker.address.country(),
+                category: faker.name.jobType(),
+                score: 12,
+                UserId: 11,
+                verified: true
+            })
+
+        for (let j = 1; j <= 11; j++){
+            for ( let i = 1; i <= 10; i++) {
                 await Report1.create({
                     pickedStage1: 'postRevenue',
                     weeklyAchievement: '12',

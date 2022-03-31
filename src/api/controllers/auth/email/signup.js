@@ -7,13 +7,6 @@ import { User, Profile } from '@/db/models'
 import session from '@/api/helpers/session'
 import passport from '@/api/helpers/passport'
 
-
-const userSerializer = function (values) {
-  const { ...user } = values.dataValues
-  delete user.passwordHash
-  return user
-}
-
 const authEmailSignup = async (req, res) => {
   console.log(req.body)
   const user = await User.build({
@@ -27,18 +20,11 @@ const authEmailSignup = async (req, res) => {
   user.passwordHash = await bcrypt.hash(req.body.password, 10)
   await user.save()
 
-  const token = crypto.randomBytes(64).toString('hex')
-  await user.createAuthenticityToken({ token })
-
-  req.session.set('token', token)
-  await req.session.save()
-
   if (!user) {
     res.status(403).json('need to fill in the necessary information')
   }
 
-  console.log(user.id)
-  const profile = await Profile.create({
+  await Profile.create({
     domain: req.body.domain,
     founded: req.body.founded,
     country: req.body.country,
@@ -48,10 +34,8 @@ const authEmailSignup = async (req, res) => {
     attributes: ['domain', 'founded', 'country', 'category', 'UserId']
   })
   
-  console.log(profile)
-  console.log(userSerializer(user))
 
-  res.status(200).json(userSerializer(user))
+  res.status(200).json()
 }
 
 export default nc()

@@ -79,7 +79,7 @@ export default function CompsLayoutsNavbar() {
         progress: undefined,
       });
     }).catch(() => {
-      toast.error('Something is wrong, please type again', {
+      toast.error('Email or Password is wrong, or your account has not been verified yet', {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,

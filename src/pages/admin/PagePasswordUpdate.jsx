@@ -5,7 +5,7 @@ import CompsLayout from '@/components/layouts/Layout'
 import FormPasswordUpdate from '@/components/forms/auth/password'
 import useUser from '@/_hooks/user'
 
-export default function account () {
+export default function AccountPage () {
     const router = useRouter()
   const { user, apiPasswordUpdate, apiLogout } = useUser()
 

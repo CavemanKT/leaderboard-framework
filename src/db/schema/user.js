@@ -26,6 +26,11 @@ module.exports = function(sequelize, DataTypes) {
     role: {
       type: DataTypes.STRING(255),
       allowNull: true
+    },
+    verified: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
     }
   }, {
     sequelize,

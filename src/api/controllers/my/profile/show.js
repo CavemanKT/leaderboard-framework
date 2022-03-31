@@ -5,7 +5,7 @@ import getCurrentUserByToken from '@/api/helpers/getCurrentUserByToken'
 import authenticateUser from '@/api/helpers/authenticateUser'
 
 const myProfileShow = async (req, res) => {
-
+  console.log(res.currentUser.Profile)
 
   res.status(200).json({ profile: res.currentUser.Profile })
 }

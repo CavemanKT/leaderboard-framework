@@ -25,7 +25,8 @@ const authEmailLogin = async (req, res, next) => {
 
     const currentProfile = await Profile.findOne({
       where: {
-        UserId: user.id
+        UserId: user.id,
+        verified: true
       }
     })
 

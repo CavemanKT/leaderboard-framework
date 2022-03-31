@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Offcanvas from 'react-bootstrap/Offcanvas'
-// import { useRouter } from 'next/router'
-// import { toast } from 'react-toastify';
+
 import CompsLayout from '@/components/layouts/Layout'
 import withAdminRoute from '@/_hocs/withAdminRouter'
 import useUsers from '@/_hooks/allUsers'

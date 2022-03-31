@@ -32,6 +32,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       defaultValue: false
     },
+    verified: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false
+    },
     UserId: {
       type: DataTypes.INTEGER,
       allowNull: true

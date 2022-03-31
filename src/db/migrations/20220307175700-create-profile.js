@@ -20,10 +20,14 @@ module.exports = {
       category: {
         type: Sequelize.STRING
       },
-      score:{
+      score: {
         type: Sequelize.INTEGER
       },
       weeklyReportFilled: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      verified: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },

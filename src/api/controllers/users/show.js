@@ -13,6 +13,7 @@ const allUsersShow = async (req, res) => {
 
     const users = await User.findAndCountAll({
         where: {
+            verified: true,
             email: {
                 [Op.iLike]: `%${q}`
             }
