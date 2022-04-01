@@ -61,6 +61,14 @@ function ContactPage () {
         </Offcanvas>
 
         <div id="cantact-page-container" className="container">
+        {
+          !recipient && (
+            <div className="my-5">
+              <h3>Please select a target user to send your email</h3>
+            </div>
+          )
+        }
+
           {
             recipient && (
               <>

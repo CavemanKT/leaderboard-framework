@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Offcanvas from 'react-bootstrap/Offcanvas'
-import Table from 'react-bootstrap/Table'
 
 import CompsLayout from '@/components/layouts/Layout'
 import withAdminRoute from '@/_hocs/withAdminRouter'
 import useUsers from '@/_hooks/allUsers'
-import CompsLoading from '@/components/Loading'
 
-// a list of Users associated with their profiles  ---> offcanvas
-// once I click the user, I can view their user and profile attributes
+import CompsLoading from '@/components/Loading'
+import { ComponentVerification } from '@/components/tables/verificationComponent'
 
 function VerificationPage () {
 
@@ -17,23 +15,14 @@ function VerificationPage () {
   const [userInfo, setUserInfo ] = useState(null)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  const { allUsers, isAllUsersLoading, apiUser } = useUsers()
+  const { allUsers, isAllUsersLoading } = useUsers()
 
   if ( !allUsers ) return null
   if ( isAllUsersLoading ) return <CompsLoading />
 
   const handleUserInfo = (userId) => {
-    apiUser(userId).then((resp) => {
-      console.log(resp.data)
-      setUserInfo(resp.data)
-    })
+    setUserInfo(userId)
   }
-
-  const settingVerifiedToTrue = () => {
-    apiSetVerifiedToTrue()
-  }
-
-  
 
   return (
     <CompsLayout>
@@ -62,47 +51,20 @@ function VerificationPage () {
         </Offcanvas>
 
         <div id="verification-page-container" className="container col col-md-8 col-sm-12 col-lg-6">
+        {
+          !userInfo && (
+            <div className="m-5">
+              <h3>
+                choose the target user
+              </h3>
+            </div>
+          )
+        }
               {
                 userInfo && (
-                  <div id="profile-container" className="position-relative">
-                    <div className="profile-wrapper row">
-                      <div className="right-column col">
-                        {/* Character info table */}
-                        <Table responsive>
-                          <thead className="d-flex justify-content-between">
-                            <tr className="tr-font d-inline">
-                              <th>User and Company Profile</th>
-                            </tr>
-                              <button className="btn btn-info m-3" onClick={settingVerifiedToTrue}>Verify</button>
-                          </thead>
-                          <tbody>
-                            <tr className="d-flex flex-column">
-                              <td className="d-flex justify-content-between">
-                                <span>Company Website</span>
-                                <span className="me-1">{userInfo.Profile.domain}</span>
-                              </td>
-                              <td className="d-flex justify-content-between">
-                                <span>Emain</span>
-                                <span className="me-1">{userInfo.email}</span>
-                              </td>
-                              <td className="d-flex justify-content-between">
-                                <span>Founded in</span>
-                                <span className="me-1">{userInfo.Profile.founded}</span>
-                              </td>
-                              <td className="d-flex justify-content-between">
-                                <span>Category</span>
-                                <span className="me-1">{userInfo.Profile.category}</span>
-                              </td>
-                              <td className="d-flex justify-content-between">
-                                <span>Based in</span>
-                                <span className="me-1">{userInfo.Profile.country}</span>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                      </div>
-                    </div>
-                  </div>
+                  <ComponentVerification 
+                    userId={userInfo}
+                  />
                 )
               }
         </div>

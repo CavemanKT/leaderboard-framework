@@ -8,7 +8,6 @@ import authenticateUser from '@/api/helpers/authenticateUser'
 import { User } from '@/db/models'
 
 const allUsersShow = async (req, res) => {
-    // const {query} = req.
     const q = req?.query?.q || ''
 
     const users = await User.findAndCountAll({
