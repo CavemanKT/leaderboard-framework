@@ -4,7 +4,7 @@ import nc from 'next-connect'
 import session from '@/api/helpers/session'
 import authenticateUser from '@/api/helpers/authenticateUser'
 import getCurrentUserByToken from '@/api/helpers/getCurrentUserByToken'
-import { User } from '@/db/models'
+import { User, Profile } from '@/db/models'
 
 const userSerializer = function (values) {
   const { ...user } = values.dataValues
@@ -14,6 +14,8 @@ const userSerializer = function (values) {
 
 const targetUserShow = async (req, res) => {
     const {userId, targetUserId} = req.query
+    
+    console.log(userId, targetUserId)
 
     if(!userId){
         res.status(500).json('no userId provided')

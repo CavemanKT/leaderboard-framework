@@ -56,7 +56,7 @@ module.exports = {
         
         await User.create({
             id: 11,
-            email: `12@test.com`,
+            email: `11@test.com`,
             passwordHash,
             registrationType: 'email',
             role: 'user',

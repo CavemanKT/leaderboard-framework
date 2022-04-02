@@ -55,7 +55,7 @@ function VerificationPage () {
           !userInfo && (
             <div className="m-5">
               <h3>
-                choose the target user
+                Choose and verify a registered user
               </h3>
             </div>
           )

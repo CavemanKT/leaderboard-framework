@@ -5,6 +5,7 @@ import useTargetUser from '@/_hooks/targetUser'
 export const ComponentVerification = ({userId}) => {
     const { targetUser, apiSetVerifiedToTrue} = useTargetUser(userId)
     
+    console.log(targetUser)
     const settingVerifiedToTrue = (USERID) => {
         apiSetVerifiedToTrue(USERID)
     }
@@ -21,7 +22,17 @@ export const ComponentVerification = ({userId}) => {
                     <tr className="tr-font d-inline">
                         <th>User and Company Profile</th>
                     </tr>
-                    <button className="btn btn-info m-3" onClick={() => settingVerifiedToTrue(userId)}>Verify</button>
+                    {
+                        !targetUser.verified && !targetUser.Profile.verified && (
+                            <button className="btn btn-info m-3" onClick={() => settingVerifiedToTrue(userId)}>Verify</button>
+                        )
+                    }
+                    {
+                        targetUser.verified && targetUser.Profile.verified && (
+                            <button className="btn btn-info m-3">Verified</button>
+                        )
+                    }
+
                 </thead>
                 <tbody>
                     <tr className="d-flex flex-column">
