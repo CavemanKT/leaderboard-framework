@@ -4,7 +4,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas'
 
 import CompsLayout from '@/components/layouts/Layout'
 import withAdminRoute from '@/_hocs/withAdminRouter'
-import useUsers from '@/_hooks/allUsers'
+import useUnverifiedUsers from '@/_hooks/allUnverifiedUsers'
 
 import CompsLoading from '@/components/Loading'
 import { ComponentVerification } from '@/components/tables/verificationComponent'
@@ -15,7 +15,7 @@ function VerificationPage () {
   const [userInfo, setUserInfo ] = useState(null)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  const { allUsers, isAllUsersLoading } = useUsers()
+  const { allUsers, isAllUsersLoading } = useUnverifiedUsers()
 
   if ( !allUsers ) return null
   if ( isAllUsersLoading ) return <CompsLoading />

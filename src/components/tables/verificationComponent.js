@@ -9,7 +9,7 @@ export const ComponentVerification = ({userId}) => {
         apiSetVerifiedToTrue(USERID)
     }
 
-    if (!targetUser) return null
+    if (!targetUser || targetUser.role == 'admin') return null
 
   return (
     <div id="profile-container" className="position-relative my-5">
@@ -26,24 +26,28 @@ export const ComponentVerification = ({userId}) => {
                 <tbody>
                     <tr className="d-flex flex-column">
                         <td className="d-flex justify-content-between">
-                        <span>Company Website</span>
-                        <span className="me-1">{targetUser.Profile.domain}</span>
+                            <span>Company Website</span>
+                            <span className="me-1">{targetUser?.Profile?.domain}</span>
                         </td>
                         <td className="d-flex justify-content-between">
-                        <span>Emain</span>
-                        <span className="me-1">{targetUser.email}</span>
+                            <span>Emain</span>
+                            <span className="me-1">{targetUser?.email}</span>
                         </td>
                         <td className="d-flex justify-content-between">
-                        <span>Founded in</span>
-                        <span className="me-1">{targetUser.Profile.founded}</span>
+                            <span>Founded in</span>
+                            <span className="me-1">{targetUser?.Profile?.founded}</span>
                         </td>
                         <td className="d-flex justify-content-between">
-                        <span>Category</span>
-                        <span className="me-1">{targetUser.Profile.category}</span>
+                            <span>Category</span>
+                            <span className="me-1">{targetUser?.Profile?.category}</span>
                         </td>
                         <td className="d-flex justify-content-between">
-                        <span>Based in</span>
-                        <span className="me-1">{targetUser.Profile.country}</span>
+                            <span>Based in</span>
+                            <span className="me-1">{targetUser?.Profile?.country}</span>
+                        </td>
+                        <td className="d-flex justify-content-between">
+                            <span>Verified</span>
+                            <span className="me-1">{targetUser.verified && targetUser.Profile.verified ? targetUser.verified.toString() : targetUser.verified.toString()}</span>
                         </td>
                     </tr>
                 </tbody>

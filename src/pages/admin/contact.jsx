@@ -11,7 +11,7 @@ import useMailbox from '@/_hooks/admin/contact/mailbox'
 
 function ContactPage () {
   const [show, setShow ] = useState(false)
-  const [recipient, setRecipient] = useState(null)
+  const [recipientId, setRecipientId] = useState(null)
   const [sender, setSender] = useState(null)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -21,11 +21,11 @@ function ContactPage () {
   if ( !allUsers ) return null
   if ( isAllUsersLoading ) return <CompsLoading />
 
-  const openMailbox = (recipientEmail, senderEmail) => {
+  const openMailbox = (recipientID, senderEmail) => {
     handleClose(true)
-    setRecipient(recipientEmail)
+    setRecipientId(recipientID)
     setSender(senderEmail)
-    console.log(recipientEmail, senderEmail)
+    console.log(recipientID, senderEmail)
   }
 
   const handleSendEmail = (value) => {
@@ -51,7 +51,7 @@ function ContactPage () {
                 allUsers && allUsers.map((item, i) => (
                   <div key={item.id} className="d-flex justify-content-between m-3">
                     {item.email}
-                    <button type="button" className="btn btn-dark" onClick={() => openMailbox(item.email, allUsers[allUsers.length - 1].email)}>Open mailbox</button>
+                    <button type="button" className="btn btn-dark" onClick={() => openMailbox(item.id, allUsers[allUsers.length - 1].email)}>Open mailbox</button>
                   </div>
                 ))
               }
@@ -61,22 +61,22 @@ function ContactPage () {
         </Offcanvas>
 
         <div id="cantact-page-container" className="container">
-        {
-          !recipient && (
-            <div className="my-5">
-              <h3>Please select a target user to send your email</h3>
-            </div>
-          )
-        }
+          {
+            !recipientId && (
+              <div className="my-5">
+                <h3>Please select a target user to send your email</h3>
+              </div>
+            )
+          }
 
           {
-            recipient && (
+            recipientId && (
               <>
                 {/* using admin's email to submit automatically */}
                 <FormMailbox
                   onSubmit={handleSendEmail}
-                  recipient={recipient}
-                  sender={sender}
+                  recipientId={recipientId}
+                  senderEmail={sender}
                 />
               </>
             )

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as yup from 'yup'
+import useTargetUser from '@/_hooks/targetUser'
 
 const RenderForm = ({ errors, touched, isSubmitting }) => (
     <Form>
@@ -82,25 +83,34 @@ const mailboxSchema = yup.object().shape({
   content: yup.string().required('Requied')
 })
 
-const FormMailbox = ({ onSubmit, recipient, sender }) => (
-      <Formik
-        initialValues={{
-        sender,
-        senderPassword: '',
-        recipient,
-        title: '',
-        content: ''
-        }}
-        validationSchema={mailboxSchema}
-        onSubmit={onSubmit}
-        component={RenderForm}
-      />
-)
+const FormMailbox = ({ onSubmit, recipientId, senderEmail }) => {
+  const { targetUser } = useTargetUser(recipientId)
+  console.log(recipientId)
+
+  if(!targetUser || targetUser.role == "admin") return null
+  
+  return(
+    <Formik
+      initialValues={{
+      sender: senderEmail,
+      senderPassword: '',
+      recipient: targetUser.email,
+      title: '',
+      content: ''
+      }}
+      validationSchema={mailboxSchema}
+      onSubmit={onSubmit}
+      component={RenderForm}
+    />
+
+  )
+}
+
 
 FormMailbox.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  recipient: PropTypes.string,
-  sender: PropTypes.string
+  recipientId: PropTypes.number,
+  senderEmail: PropTypes.string
 }
 
 export default FormMailbox

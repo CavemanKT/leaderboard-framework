@@ -27,6 +27,13 @@ const targetUserShow = async (req, res) => {
                 id: userId
             }
         })
+        await Profile.update({
+            verified: true
+        }, {
+            where: {
+                UserId: userId
+            }
+        })
     }
 
     const user = await User.findOne({
