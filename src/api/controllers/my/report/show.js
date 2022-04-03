@@ -14,7 +14,7 @@ const myReport1Show = async (req, res) => {
         where: {
             ProfileId: profileId
         },
-        order: [['updatedAt', 'DESC'] ]
+        order: [['updatedAt', 'ASC'] ]
     })
 
     let categories = []
