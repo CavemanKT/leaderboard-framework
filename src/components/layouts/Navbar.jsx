@@ -1,42 +1,78 @@
-import Link from 'next/link'
-import Navbar from 'react-bootstrap/Navbar'
-import Container from 'react-bootstrap/Container'
-import Nav from 'react-bootstrap/Nav'
+import Link from 'next/link';
+import Navbar from 'react-bootstrap/Navbar';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
 
-import { useState, useRef } from 'react'
+import { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import Overlay from 'react-bootstrap/Overlay'
-import Popover from 'react-bootstrap/Popover'
-import Button from 'react-bootstrap/Button'
-import ModalsSignup from '@/components/modals/auth/signup'
-import ModalsLogin from '@/components/modals/auth/login'
+import Overlay from 'react-bootstrap/Overlay';
+import Popover from 'react-bootstrap/Popover';
+import Button from 'react-bootstrap/Button';
+import ModalsSignup from '@/components/modals/auth/signup';
+import ModalsLogin from '@/components/modals/auth/login';
 // img
 
 // user
-import useUser from '@/_hooks/user'
+import useUser from '@/_hooks/user';
 
 export default function CompsLayoutsNavbar() {
-  const [show, setShow] = useState(false)
-  const [target, setTarget] = useState(null)
-  const ref = useRef(null)
-  const [openSignupModal, setOpenSignupModal] = useState(false)
-  const [openLoginModal, setOpenLoginModal] = useState(false)
+  const [show, setShow] = useState(false);
+  const [target, setTarget] = useState(null);
+  const ref = useRef(null);
+  const [openSignupModal, setOpenSignupModal] = useState(false);
+  const [openLoginModal, setOpenLoginModal] = useState(false);
 
-  const { user, apiSignup, apiLogin, apiLogout } = useUser()
+  const { user, apiTurmail, apiSignup, apiLogin, apiLogout } = useUser();
 
   const handleSignupModal = () => {
-    setOpenSignupModal(true)
-  }
+    setOpenSignupModal(true);
+  };
 
   const closeModalsSignup = () => {
-    setOpenSignupModal(false)
-  }
+    setOpenSignupModal(false);
+  };
 
   const handleSignupSubmit = (values) => {
-    apiSignup(values).then(() => {
-      toast.success('Signed up successfully', {
-        position: "top-center",
+    apiTurmail(values.email).then((resp) => {
+      if (resp.validFormat == true && resp.deliverable == true && resp.hostExists == true) {
+        apiSignup(values).then(() => {
+          toast.success('Signed up successfully', {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }).catch(() => {
+          toast.error('Something is wrong, please contain administrator with email provided below', {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+        }).finally(() => {
+          setOpenSignupModal(false)
+        })
+      } else {
+        toast.warning('The email address does not exist or work', {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+      }
+    }).catch(() => {
+      toast.error('the site is not working', {
+        position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -44,33 +80,23 @@ export default function CompsLayoutsNavbar() {
         draggable: true,
         progress: undefined,
       })
-    }).catch(() => {
-      toast.error('Something is wrong, please contain administrator with email provided below', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
     }).finally(() => {
       setOpenSignupModal(false)
     })
-  }
+  };
 
   const handleLoginModal = () => {
-    setOpenLoginModal(true)
-  }
+    setOpenLoginModal(true);
+  };
 
   const closeModalsLogin = () => {
-    setOpenLoginModal(false)
-  }
+    setOpenLoginModal(false);
+  };
 
   const handleLoginSubmit = (values) => {
     apiLogin(values).then(() => {
       toast.success('Logged in successfully', {
-        position: "top-center",
+        position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -80,7 +106,7 @@ export default function CompsLayoutsNavbar() {
       });
     }).catch(() => {
       toast.error('Email or Password is wrong, or your account has not been verified yet', {
-        position: "top-center",
+        position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -89,20 +115,20 @@ export default function CompsLayoutsNavbar() {
         progress: undefined,
       });
     }).finally(() => {
-      setOpenLoginModal(false)
-    })
-  }
+      setOpenLoginModal(false);
+    });
+  };
 
   const handleClick = (event) => {
-    setShow(!show)
-    setTarget(event.target)
-  }
+    setShow(!show);
+    setTarget(event.target);
+  };
 
   const handleLogout = (event) => {
-    handleClick(event)
+    handleClick(event);
     apiLogout().then(() => {
       toast.success('You have logged out, wish to see you back', {
-        position: "top-center",
+        position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -110,10 +136,8 @@ export default function CompsLayoutsNavbar() {
         draggable: true,
         progress: undefined,
       });
-    })
-  }
-
-
+    });
+  };
 
   return (
     <>
@@ -154,7 +178,7 @@ export default function CompsLayoutsNavbar() {
                       <Popover id="popover-contained">
                         <Popover.Body>
                           <ul className="list-unstyled text-center">
-                          {
+                            {
                             user?.role == 'user' && (
                               <>
                                 <li className="mb-2 rounded-3 btn-info">
@@ -176,7 +200,7 @@ export default function CompsLayoutsNavbar() {
                                     <Nav.Link as={Link} href="/admin/PagePasswordUpdate" onClick={handleClick}><a className="btn">change password</a></Nav.Link>
                                   </li>
                                   <li className="mb-2 rounded-3 btn-info">
-                                    <Nav.Link as={Link} href="/admin/verification" onClick={handleClick}><a className="btn">verification</a></Nav.Link> 
+                                    <Nav.Link as={Link} href="/admin/verification" onClick={handleClick}><a className="btn">verification</a></Nav.Link>
                                   </li>
                                   <li className="mb-2 rounded-3 btn-info">
                                     <Nav.Link as={Link} href="/admin/report" onClick={handleClick}><a className="btn">report</a></Nav.Link>
@@ -207,5 +231,5 @@ export default function CompsLayoutsNavbar() {
       {openSignupModal && <ModalsSignup close={closeModalsSignup} onSubmit={handleSignupSubmit} />}
       {openLoginModal && <ModalsLogin close={closeModalsLogin} onSubmit={handleLoginSubmit} />}
     </>
-  )
+  );
 }

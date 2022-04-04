@@ -1,6 +1,5 @@
 import nc from 'next-connect'
 import bcrypt from 'bcrypt'
-import crypto from 'crypto'
 
 import { User, Profile } from '@/db/models'
 
@@ -10,32 +9,38 @@ import passport from '@/api/helpers/passport'
 const authEmailSignup = async (req, res) => {
   console.log(req.body)
   const user = await User.build({
-    ...req.body, registrationType: 'email', role: 'user'
+    email: req.body.email, 
+    registrationType: 'email',
+    role: 'user', 
+    verified: false
   }, {
-    attributes: ['email', 'passwordHash', 'registrationType', 'role']
+    attributes: ['email', 'passwordHash', 'registrationType', 'role', 'verified']
   })
 
-  console.log('user sign up');
 
   user.passwordHash = await bcrypt.hash(req.body.password, 10)
   await user.save()
 
-  if (!user) {
+
+  if (!user?.id) {
     res.status(403).json('need to fill in the necessary information')
   }
 
-  await Profile.create({
+  console.log(req.body.domain, req.body.founded, req.body.country, req.body.category, user.id)
+  
+
+  const profile = await Profile.create({
     domain: req.body.domain,
     founded: req.body.founded,
     country: req.body.country,
     category: req.body.category,
+    weeklyReportFilled: false,
     UserId: user.id
-  }, {
-    attributes: ['domain', 'founded', 'country', 'category', 'UserId']
   })
   
-
-  res.status(200).json()
+  console.log(profile)
+  
+  res.status(200).json({message: 'successful signup'})
 }
 
 export default nc()

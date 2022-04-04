@@ -9,12 +9,24 @@ export default function useUser() {
     revalidateOnFocus: true
   })
 
+  const apiTurmail = (email) => (new Promise((resolve, reject) => {
+    axios({
+      method: 'GET',
+      url: `https://api.trumail.io/v2/lookups/json?email=${email}`,
+    }).then((resp) => {
+      resolve(resp)
+    }).catch((err) => {
+      reject(err)
+    })
+  }))
+
+  
+
   const apiSignup = (values) => (new Promise((resolve, reject) => {
     axios({
       method: 'POST',
       url: '/api/auth/email/signup',
-      data: values,
-      withCredentials: true
+      data: values
     }).then((resp) => {
       resolve(resp)
       mutate(resp.data)
@@ -28,8 +40,7 @@ export default function useUser() {
     axios({
       method: 'POST',
       url: '/api/auth/email/login',
-      data: values,
-      withCredentials: true
+      data: values
     }).then((resp) => {
       resolve(resp)
       mutate(resp.data)
@@ -88,6 +99,7 @@ export default function useUser() {
     isLoading: !error && !data,
     isError: error,
     errorMessage: error?.response?.data?.message,
+    apiTurmail,
     apiSignup,
     apiLogin,
     apiLogout,
