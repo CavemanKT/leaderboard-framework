@@ -32,7 +32,6 @@ function ContactPage () {
     apiSendEmailToUser(value)
   }
 
-
   return (
     <CompsLayout>
       <div id="contact-page-wrapper">

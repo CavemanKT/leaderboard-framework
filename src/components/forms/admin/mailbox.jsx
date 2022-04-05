@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import PropTypes from 'prop-types'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as yup from 'yup'
@@ -85,27 +85,26 @@ const mailboxSchema = yup.object().shape({
 
 const FormMailbox = ({ onSubmit, recipientId, senderEmail }) => {
   const { targetUser } = useTargetUser(recipientId)
-  console.log(recipientId)
+  const ref = useRef(null)
+  console.log(recipientId, targetUser?.id)
 
   if(!targetUser || targetUser.role == "admin") return null
-  
-  return(
-    <Formik
-      initialValues={{
-      sender: senderEmail,
-      senderPassword: '',
-      recipient: targetUser.email,
-      title: '',
-      content: ''
-      }}
-      validationSchema={mailboxSchema}
-      onSubmit={onSubmit}
-      component={RenderForm}
-    />
 
+  return (
+      <Formik
+        initialValues={{
+        sender: senderEmail,
+        senderPassword: '',
+        recipient: targetUser?.email,
+        title: '',
+        content: ''
+        }}
+        validationSchema={mailboxSchema}
+        onSubmit={onSubmit}
+        component={RenderForm}
+      />
   )
 }
-
 
 FormMailbox.propTypes = {
   onSubmit: PropTypes.func.isRequired,

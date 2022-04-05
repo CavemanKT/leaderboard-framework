@@ -1,6 +1,6 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/jsx-indent */
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Table from 'react-bootstrap/Table'
 import Overlay from 'react-bootstrap/Overlay'
@@ -11,25 +11,33 @@ import CompsLayout from '@/components/layouts/Layout'
 import useProfile from '@/_hooks/profile'
 import useUser from '@/_hooks/user'
 import useProfiles from '@/_hooks/allProfiles'
-
+import { Profile } from '@/db/models'
 
 const row = ['DOMAIN', 'FOUNDED', 'COUNTRY', 'CATEGORY', 'SCORE']
 
 
-export default function Home() {
+export default function Home({someProfiles}) {
   const router = useRouter()
   const [domainName, setDomainName] = useState(null)
   const ref = useRef(null)
   const [show, setShow] = useState(false)
   const [target, setTarget] = useState(null)
   const [someList, setSomeList] = useState(null)
+  const [ initialProfiles, setInitialProfiles] = useState(null)
   const { user } = useUser()
-  const {profile} = useProfile()
   const { allProfiles } = useProfiles()
 
   if(user && user?.Profile && !user?.Profile?.weeklyReportFilled){
     router.push('/report/weeklyUpdateForm')
   }
+  console.log(user)
+
+  useEffect(() => {
+    const obj = JSON.parse(someProfiles)
+    if(obj){
+      setInitialProfiles(obj)
+    }
+  }, [someProfiles])
 
   const handleDomainSearchSubmit = (e, domainName) => {
 
@@ -44,6 +52,7 @@ export default function Home() {
     setSomeList(event.target.value)
   }
 
+
   return (
     <CompsLayout>
       <div className="container mt-5 mb-5">
@@ -53,7 +62,7 @@ export default function Home() {
           </div>
 
         {
-          profile?.id && (
+          user && (
             <div className="d-flex justify-content-around">
               {/* the search bar is using tailwind css at the moment */}
               <form id="channel-form" onSubmit={(e) => handleDomainSearchSubmit(e, domainName)}>
@@ -166,7 +175,19 @@ export default function Home() {
               </thead>
               <tbody>
                 {
-                  allProfiles && allProfiles.map((item, i) => (
+                  user && allProfiles && allProfiles.map((item, i) => (
+                    <tr key={item.id} className="border-bottom">
+                      <td className="id-style d-flex align-items-center justify-content-center mt-2">{i + 1}</td>
+                      <td>{item.domain}</td>
+                      <td>{item.founded}</td>
+                      <td>{item.country}</td>
+                      <td>{item.category}</td>
+                      <td>{item.score}</td>
+                    </tr>
+                  ))
+                }
+                {
+                  !user && !allProfiles && initialProfiles && initialProfiles.map((item, i) => (
                     <tr key={item.id} className="border-bottom">
                       <td className="id-style d-flex align-items-center justify-content-center mt-2">{i + 1}</td>
                       <td>{item.domain}</td>
@@ -179,11 +200,18 @@ export default function Home() {
                 }
               </tbody>
             </Table>
+                {
+                  !user && (
+                    <div className="text-center">
+                      <h3>Login to see Leaderboard info.</h3>
+                    </div>
+                  )
+                }
           </div>
         </div>
       </div>
       {
-        profile && (
+        user && (
           <div className="text-center my-5 container">
             <button className="btn btn-info mx-3 leaderboard-btn-width">1</button>
             <button className="btn btn-info mx-3 leaderboard-btn-width">previous</button>
@@ -198,19 +226,19 @@ export default function Home() {
 }
 
 
-// export async function getStaticProps() {
-//   const someProfiles = await Profile.findAndCountAll({
-//     order:[
-//       ['updatedAt', 'DESC']
-//     ],
-//     limit: 8,
-//     offset: 0
-//   })
-
-//   return {
-//     props:{
-//       someProfiles
-//     }
-//   }
-// }
+export async function getStaticProps() {
+  const someProfiles = await Profile.findAll({
+    order:[
+      ['createdAt', 'ASC']
+    ],
+    limit: 8,
+    offset: 0
+  })
+  
+  return {
+    props:{
+      someProfiles : JSON.stringify(someProfiles)
+    }
+  }
+}
 

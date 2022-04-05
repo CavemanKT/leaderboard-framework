@@ -23,12 +23,12 @@ export const ComponentVerification = ({userId}) => {
                         <th>User and Company Profile</th>
                     </tr>
                     {
-                        !targetUser.verified && !targetUser.Profile.verified && (
+                        !targetUser?.verified && !targetUser?.Profile?.verified && (
                             <button className="btn btn-info m-3" onClick={() => settingVerifiedToTrue(userId)}>Verify</button>
                         )
                     }
                     {
-                        targetUser.verified && targetUser.Profile.verified && (
+                        targetUser?.verified && targetUser?.Profile?.verified && (
                             <button className="btn btn-info m-3">Verified</button>
                         )
                     }

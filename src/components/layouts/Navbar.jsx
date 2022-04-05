@@ -34,6 +34,15 @@ export default function CompsLayoutsNavbar() {
   };
 
   const handleSignupSubmit = (values) => {
+    toast.warning('Verifying your email.', {
+      position: 'top-center',
+      autoClose: 40000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    })
     apiTurmail(values.email).then((resp) => {
       if (resp.validFormat == true && resp.deliverable == true && resp.hostExists == true) {
         apiSignup(values).then(() => {
@@ -71,7 +80,7 @@ export default function CompsLayoutsNavbar() {
         })
       }
     }).catch(() => {
-      toast.error('the site is not working', {
+      toast.error('seems like something is broken.', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -211,7 +220,6 @@ export default function CompsLayoutsNavbar() {
                                 </>
                               )
                             }
-
                             <li className="mb-2 rounded-3 btn-light">
                               <Nav.Link className="btn" onClick={handleLogout}>Log out</Nav.Link>
                             </li>
@@ -223,7 +231,6 @@ export default function CompsLayoutsNavbar() {
                 </div>
               )
             }
-
             </Nav>
           </Navbar.Collapse>
         </Container>
