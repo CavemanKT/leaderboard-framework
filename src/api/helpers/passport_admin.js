@@ -9,7 +9,7 @@ passport.use('inspector-local', new LocalStrategy({
   passwordField: 'password',
   session: false
 }, async (email, password, done) => {
-  const user = await User.findOne({ where: { email, registrationType: 'email', type: 'inspector' } })
+  const user = await User.findOne({ where: { email, registrationType: 'email', role: 'admin' } })
 
   if (!user) return done(null, false, { message: 'User Not Found' })
   if (!await bcrypt.compare(password, user.passwordHash)) return done(null, false, { message: 'Incorrect Password' })

@@ -13,7 +13,7 @@ import useUser from '@/_hooks/user'
 
 import withPrivateRoute from '@/_hocs/withPrivateRoute'
 
-const accountPart = () => {
+const AccountPart = () => {
   const [ show, setShow ] = useState(false)
   const [target, setTarget] = useState(null)
   const ref = useRef(null)
@@ -104,4 +104,4 @@ const accountPart = () => {
   )
 }
 
-export default withPrivateRoute(accountPart)
+export default withPrivateRoute(AccountPart)

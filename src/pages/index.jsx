@@ -1,6 +1,6 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/jsx-indent */
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import Table from 'react-bootstrap/Table'
 import Overlay from 'react-bootstrap/Overlay'
@@ -8,36 +8,24 @@ import Popover from 'react-bootstrap/Popover'
 import Button from '@mui/material/Button'
 import { Col, Row, Form } from 'react-bootstrap'
 import CompsLayout from '@/components/layouts/Layout'
-import useProfile from '@/_hooks/profile'
 import useUser from '@/_hooks/user'
 import useProfiles from '@/_hooks/allProfiles'
-import { Profile } from '@/db/models'
 
 const row = ['DOMAIN', 'FOUNDED', 'COUNTRY', 'CATEGORY', 'SCORE']
 
-
-export default function Home({someProfiles}) {
+export default function Home() {
   const router = useRouter()
   const [domainName, setDomainName] = useState(null)
   const ref = useRef(null)
   const [show, setShow] = useState(false)
   const [target, setTarget] = useState(null)
   const [someList, setSomeList] = useState(null)
-  const [ initialProfiles, setInitialProfiles] = useState(null)
   const { user } = useUser()
   const { allProfiles } = useProfiles()
 
   if(user && user?.Profile && !user?.Profile?.weeklyReportFilled){
     router.push('/report/weeklyUpdateForm')
   }
-  console.log(user)
-
-  useEffect(() => {
-    const obj = JSON.parse(someProfiles)
-    if(obj){
-      setInitialProfiles(obj)
-    }
-  }, [someProfiles])
 
   const handleDomainSearchSubmit = (e, domainName) => {
 
@@ -158,48 +146,39 @@ export default function Home({someProfiles}) {
             </div>
           )
         }
-
           <div className="col col-lg-12 col-md-12 col-sm-12 col-md-auto">
-            <Table responsive>
-              <thead>
-                <tr>
-                  <th />
+          {
+            user && (
+              <Table responsive>
+                <thead>
+                  <tr>
+                    <th />
+                    {
+                        row.map((item) => (
+                          <th key={item}>
+                            {item}
+                          </th>
+                        ))
+                      }
+                  </tr>
+                </thead>
+                <tbody>
                   {
-                      row.map((item) => (
-                        <th key={item}>
-                          {item}
-                        </th>
-                      ))
-                    }
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  user && allProfiles && allProfiles.map((item, i) => (
-                    <tr key={item.id} className="border-bottom">
-                      <td className="id-style d-flex align-items-center justify-content-center mt-2">{i + 1}</td>
-                      <td>{item.domain}</td>
-                      <td>{item.founded}</td>
-                      <td>{item.country}</td>
-                      <td>{item.category}</td>
-                      <td>{item.score}</td>
-                    </tr>
-                  ))
-                }
-                {
-                  !user && !allProfiles && initialProfiles && initialProfiles.map((item, i) => (
-                    <tr key={item.id} className="border-bottom">
-                      <td className="id-style d-flex align-items-center justify-content-center mt-2">{i + 1}</td>
-                      <td>{item.domain}</td>
-                      <td>{item.founded}</td>
-                      <td>{item.country}</td>
-                      <td>{item.category}</td>
-                      <td>{item.score}</td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </Table>
+                    allProfiles && allProfiles.map((item, i) => (
+                      <tr key={item.id} className="border-bottom">
+                        <td className="id-style d-flex align-items-center justify-content-center mt-2">{i + 1}</td>
+                        <td>{item.domain}</td>
+                        <td>{item.founded}</td>
+                        <td>{item.country}</td>
+                        <td>{item.category}</td>
+                        <td>{item.score}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </Table>
+            )
+          }
                 {
                   !user && (
                     <div className="text-center">
@@ -226,19 +205,4 @@ export default function Home({someProfiles}) {
 }
 
 
-export async function getStaticProps() {
-  const someProfiles = await Profile.findAll({
-    order:[
-      ['createdAt', 'ASC']
-    ],
-    limit: 8,
-    offset: 0
-  })
-  
-  return {
-    props:{
-      someProfiles : JSON.stringify(someProfiles)
-    }
-  }
-}
 
