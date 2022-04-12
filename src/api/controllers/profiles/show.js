@@ -13,6 +13,8 @@ const allProfilesShow = async (req, res) => {
     const limit = 6
     const offset = (page - 1) * limit
 
+    console.log(page, offset)
+
     const profiles = await Profile.findAndCountAll({
         where: {
             verified: true,
@@ -24,6 +26,8 @@ const allProfilesShow = async (req, res) => {
         limit,
         offset
     })
+
+    console.log(profiles)
 
     res.status(200).json({profiles: profiles.rows, 
         filter: {q, page, limit, offset, totalPage: Math.ceil(profiles.count / limit)}

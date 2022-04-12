@@ -15,13 +15,14 @@ const row = ['DOMAIN', 'FOUNDED', 'COUNTRY', 'CATEGORY', 'SCORE']
 
 export default function Home() {
   const router = useRouter()
+  const { query: {page}, push } = useRouter() 
   const [domainName, setDomainName] = useState(null)
   const ref = useRef(null)
   const [show, setShow] = useState(false)
   const [target, setTarget] = useState(null)
   const [someList, setSomeList] = useState(null)
   const { user } = useUser()
-  const { allProfiles } = useProfiles()
+  const { allProfiles, allMeta } = useProfiles()
 
   if(user && user?.Profile && !user?.Profile?.weeklyReportFilled){
     router.push('/report/weeklyUpdateForm')
@@ -40,6 +41,16 @@ export default function Home() {
     setSomeList(event.target.value)
   }
 
+  const goToPage = (num) => {
+    console.log( page, num, allMeta.totalPage )
+    if(allMeta?.totalPage && num <= allMeta?.totalPage) push(`?page=${allMeta?.totalPage}`)
+    if(isNaN(num) == false && num <= allMeta?.totalPage){
+      console.log(num)
+      push(`?page=${num}`)
+    }
+    if(isNaN(num)) push(`?page=1`)
+    if(num == 0 || num == -1) push(`?page=1`)
+  }
 
   return (
     <CompsLayout>
@@ -192,10 +203,10 @@ export default function Home() {
       {
         user && (
           <div className="text-center my-5 container">
-            <button className="btn btn-info mx-3 leaderboard-btn-width">1</button>
-            <button className="btn btn-info mx-3 leaderboard-btn-width">previous</button>
-            <button className="btn btn-info mx-3 leaderboard-btn-width">next</button>
-            <button className="btn btn-info mx-3 leaderboard-btn-width">10</button>
+            <button className="btn btn-info mx-3 leaderboard-btn-width" onClick={() => goToPage(1)}>1</button>
+            <button className="btn btn-info mx-3 leaderboard-btn-width" onClick={() => goToPage(Number(page) - 1)}>previous</button>
+            <button className="btn btn-info mx-3 leaderboard-btn-width" onClick={() => goToPage(Number(page) + 1)}>next</button>
+            <button className="btn btn-info mx-3 leaderboard-btn-width" onClick={() => goToPage(allMeta?.totalPage)}>10</button>
           </div>
         )
       }
