@@ -18,6 +18,8 @@ export default function Home() {
   const { query: {page}, push } = useRouter() 
   const [domainName, setDomainName] = useState(null)
   const ref = useRef(null)
+  const pageNum = useRef(1)
+  const qNum = useRef('')
   const [show, setShow] = useState(false)
   const [target, setTarget] = useState(null)
   const [someList, setSomeList] = useState(null)
@@ -32,6 +34,12 @@ export default function Home() {
 
   }
 
+  const handleQuery = (q) => {
+    qNum.current=q
+    console.log(qNum)
+    push(`?page=${pageNum.current}&q=${q}`)
+  }
+
   const handleExpanding = (event) =>{
     setShow(!show)
     setTarget(event.target)
@@ -42,14 +50,15 @@ export default function Home() {
   }
 
   const goToPage = (num) => {
-    console.log( page, num, allMeta.totalPage )
+    pageNum.current = num
+    console.log( page, num, pageNum, allMeta.totalPage )
     if(allMeta?.totalPage && num <= allMeta?.totalPage) push(`?page=${allMeta?.totalPage}`)
     if(isNaN(num) == false && num <= allMeta?.totalPage){
       console.log(num)
-      push(`?page=${num}`)
+      push(`?page=${num}&q=${qNum.current}`)
     }
-    if(isNaN(num)) push(`?page=1`)
-    if(num == 0 || num == -1) push(`?page=1`)
+    if(isNaN(num)) push(`?page=1&q=${qNum.current}`)
+    if(num == 0 || num == -1) push(`?page=1&q=${qNum.current}`)
   }
 
   return (
@@ -75,6 +84,7 @@ export default function Home() {
                     onChange={(e) => {
                       e.preventDefault()
                       setDomainName(e.target.value)
+                      handleQuery(e.target.value)
                     }}
                   />
 
