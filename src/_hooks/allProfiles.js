@@ -3,9 +3,9 @@ import fetcher from '@/_services/fetcher'
 import {useRouter} from 'next/router'
 
 export default function useProfiles() {
-    const { query: { page, q }, isReady } = useRouter()
-    console.log(page, isReady, q)
-    const {data, error, mutate} = useSWR(isReady ? `/api/allProfiles/${page}?q=${q}` : null, fetcher, {
+    const { query: { page, q, subject, subjectOrder }, isReady } = useRouter()
+    console.log(page, isReady, q, subject, subjectOrder)
+    const {data, error, mutate} = useSWR(isReady ? `/api/allProfiles?page=${page}&q=${q}&subject=${subject}&order=${subjectOrder}` : null, fetcher, {
         shouldRetryOnError: false
     })
 

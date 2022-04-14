@@ -13,7 +13,9 @@ const allProfilesShow = async (req, res) => {
     const limit = 6
     const offset = (page - 1) * limit
 
-    console.log(page, offset, q)
+    const subject = req?.query?.subject ? req?.query?.subject : 'createdAt'
+    const order = req?.query?.order ? req?.query?.order : 'DESC'
+    console.log("page: ", page, " offset: ", offset, " q : ",  q, " subject: ", subject, ' order: ', order)
 
     try{
         const profiles = await Profile.findAndCountAll({
@@ -23,7 +25,7 @@ const allProfilesShow = async (req, res) => {
                     [Op.iLike]: `%${q}%`
                 },
             },
-            order: [['createdAt', 'DESC']],
+            order: [[`${subject}`, `${order}`]],
             limit,
             offset
         })

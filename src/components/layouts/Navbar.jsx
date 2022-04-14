@@ -3,9 +3,9 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
-
+import { useRouter } from 'next/router'
 import Overlay from 'react-bootstrap/Overlay';
 import Popover from 'react-bootstrap/Popover';
 import Button from 'react-bootstrap/Button';
@@ -20,10 +20,13 @@ export default function CompsLayoutsNavbar() {
   const [show, setShow] = useState(false);
   const [target, setTarget] = useState(null);
   const ref = useRef(null);
+  const {push} = useRouter()
   const [openSignupModal, setOpenSignupModal] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
   const { user, apiTurmail, apiSignup, apiLogin, apiLogout } = useUser();
+
+
 
   const handleSignupModal = () => {
     setOpenSignupModal(true);
@@ -104,6 +107,7 @@ export default function CompsLayoutsNavbar() {
 
   const handleLoginSubmit = (values) => {
     apiLogin(values).then(() => {
+      push(`/?page=1&q=&subject=&order=`)
       toast.success('Logged in successfully', {
         position: 'top-center',
         autoClose: 5000,

@@ -12,6 +12,8 @@ import useUser from '@/_hooks/user'
 import useProfiles from '@/_hooks/allProfiles'
 
 const row = ['DOMAIN', 'FOUNDED', 'COUNTRY', 'CATEGORY', 'SCORE']
+const data = ['domain', 'founded', 'country', 'category', 'score']
+const ORDER = {'A-Z' : 'ASC', 'Z-A': 'DESC'}
 
 export default function Home() {
   const router = useRouter()
@@ -20,9 +22,10 @@ export default function Home() {
   const ref = useRef(null)
   const pageNum = useRef(1)
   const qNum = useRef('')
+  const subject = useRef('')
+  const subjectOrder = useRef('')
   const [show, setShow] = useState(false)
   const [target, setTarget] = useState(null)
-  const [someList, setSomeList] = useState(null)
   const { user } = useUser()
   const { allProfiles, allMeta } = useProfiles()
 
@@ -30,9 +33,6 @@ export default function Home() {
     router.push('/report/weeklyUpdateForm')
   }
 
-  const handleDomainSearchSubmit = (e, domainName) => {
-
-  }
 
   const handleQuery = (q) => {
     qNum.current=q
@@ -45,13 +45,19 @@ export default function Home() {
     setTarget(event.target)
   } 
 
-  const handleRadioValue = (event) => {
-    setSomeList(event.target.value)
+  const handleRadioValue = (subjectValue, orderValue) => {
+    subject.current = subjectValue
+    subjectOrder.current = orderValue
+    console.log(subject.current, subjectOrder.current, subjectValue, orderValue)
+  }
+
+  const handleFilterConfirm = () => {
+    push(`?page=${pageNum.current}&q=${qNum.current}&subject=${subject.current}&order=${subjectOrder.current}`)
   }
 
   const goToPage = (num) => {
     pageNum.current = num
-    console.log( page, num, pageNum, allMeta.totalPage )
+    console.log( page, num, pageNum, allMeta?.totalPage )
     if(allMeta?.totalPage && num <= allMeta?.totalPage) push(`?page=${allMeta?.totalPage}`)
     if(isNaN(num) == false && num <= allMeta?.totalPage){
       console.log(num)
@@ -74,10 +80,10 @@ export default function Home() {
             <div className="d-flex justify-content-around">
               {/* the search bar is using tailwind css at the moment */}
               <form id="channel-form" onSubmit={(e) => handleDomainSearchSubmit(e, domainName)}>
-                <div className="input-field col s6 flex justify-center">
+                <div className="input-field col s-6 flex justify-center">
                   <input
                     type="text"
-                    placeholder="Enter Channel Name"
+                    placeholder="Search Domain Name"
                     id="channel-input"
                     className="outline-none focus:border-b-2 m-8 h-28 w-1/2 text-3xl"
                     value={domainName || ''}
@@ -87,17 +93,6 @@ export default function Home() {
                       handleQuery(e.target.value)
                     }}
                   />
-
-                  <button
-                    type="button"
-                    className="outline border rounded p-4 hover:cursor-pointer"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handleDomainSearchSubmit(e, domainName)
-                    }}
-                  >
-                    Search
-                  </button>
                 </div>
               </form>
               {/* need to fix the filter btn after the completion of weekly update form */}
@@ -106,8 +101,8 @@ export default function Home() {
                 <Button
                   type="button"
                   className="btn btn-primary ms-5 h-100"
-                  onClick={() => {
-                    handleExpanding()
+                  onClick={(event) => {
+                    handleExpanding(event)
                   }}
                 >Filter
                 </Button>
@@ -129,20 +124,35 @@ export default function Home() {
                         <fieldset>
                           <Form.Group as={Row} className="mb-1">
                             <Col sm={10}>
-                              <div>asdfasdf</div>
+                              <div>Order By</div>
                               {
-                                {/* todos.map((someTodoList) => (
-                                  <div key={someTodoList.id} className="m-1">
+                                data.map((item, i) => (
+                                  <div key={i} className="m-1">
                                     <Form.Check
-                                      label={someTodoList.name}
+                                      label={item}
                                       type="radio"
-                                      id={someTodoList.id}
-                                      name="radio"
-                                      value={`${someTodoList.id}`}
-                                      onChange={handleRadioValue}
+                                      id={item}
+                                      name="subjects"
+                                      value={item}
+                                      onChange={(e) => handleRadioValue(e.target.value, subjectOrder.current)}
                                     />
                                   </div>
-                                )) */}
+                                ))
+                              }
+                              <div>Order</div>
+                              {
+                                Object.keys(ORDER).map((item, i) => (
+                                  <div key={i} className="m-1">
+                                    <Form.Check 
+                                      label={item}
+                                      type="radio"
+                                      id={item}
+                                      name="order"
+                                      value={Object.values(ORDER)[i]}
+                                      onChange={(e) => handleRadioValue(subject.current, e.target.value)}
+                                    />
+                                  </div>
+                                ))
                               }
                             </Col>
                           </Form.Group>
@@ -154,8 +164,8 @@ export default function Home() {
                           size="medium"
                           className="mt-4"
                           onClick={() => {
-                            handleConfirmMovingToAnotherList()
-                            setShow(selectedFromHook)
+                            handleFilterConfirm()
+                            setShow(!show)
                           }}
                         >Confirm
                         </Button>
