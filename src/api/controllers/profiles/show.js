@@ -13,8 +13,18 @@ const allProfilesShow = async (req, res) => {
     const limit = 6
     const offset = (page - 1) * limit
 
-    const subject = req?.query?.subject ? req?.query?.subject : 'createdAt'
-    const order = req?.query?.order ? req?.query?.order : 'DESC'
+    let subject
+    if(req?.query?.subject == 'undefined' || req?.query?.subject == ''){
+        subject = 'createdAt'
+    } else {
+        subject = req?.query?.subject
+    }
+    let order
+    if(req?.query?.order == 'undefined' || req?.query?.order == ''){
+        order = 'DESC'
+    } else {
+        order = req?.query?.order
+    }
     console.log("page: ", page, " offset: ", offset, " q : ",  q, " subject: ", subject, ' order: ', order)
 
     try{

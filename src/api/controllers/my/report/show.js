@@ -23,6 +23,7 @@ const myReport1Show = async (req, res) => {
     for(var i = 0; i < reports.length; i++){
       categories.push(`Week ${i + 1}`)
       scores.push(reports[i].score)
+      console.log(scores)
     }
 
     let chartData = {

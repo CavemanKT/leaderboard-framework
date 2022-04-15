@@ -31,7 +31,6 @@ const apiWeeklyReportFilledSchedule = async (req, res) => {
     rule.dayOfWeek = 5
     rule.hour = 6
     rule.minute = 30
-    // rule.second = 0
     rule.tz = 'Etc/UTC'
 
     const stopJob = () => {

@@ -21,7 +21,7 @@ export default function Home() {
   const [domainName, setDomainName] = useState(null)
   const ref = useRef(null)
   const pageNum = useRef(1)
-  const qNum = useRef('')
+  const query = useRef('')
   const subject = useRef('')
   const subjectOrder = useRef('')
   const [show, setShow] = useState(false)
@@ -35,9 +35,9 @@ export default function Home() {
 
 
   const handleQuery = (q) => {
-    qNum.current=q
-    console.log(qNum)
-    push(`?page=${pageNum.current}&q=${q}`)
+    query.current=q
+    console.log(query)
+    push(`?page=${pageNum.current}&q=${q}&subject=${subject.current}&order=${subjectOrder.current}`)
   }
 
   const handleExpanding = (event) =>{
@@ -52,19 +52,19 @@ export default function Home() {
   }
 
   const handleFilterConfirm = () => {
-    push(`?page=${pageNum.current}&q=${qNum.current}&subject=${subject.current}&order=${subjectOrder.current}`)
+    push(`?page=${pageNum.current}&q=${query.current}&subject=${subject.current}&order=${subjectOrder.current}`)
   }
 
   const goToPage = (num) => {
     pageNum.current = num
     console.log( page, num, pageNum, allMeta?.totalPage )
-    if(allMeta?.totalPage && num <= allMeta?.totalPage) push(`?page=${allMeta?.totalPage}`)
+    if(allMeta?.totalPage && num <= allMeta?.totalPage) push(`?page=${allMeta?.totalPage}&q=${query.current}&subject=${subject.current}&order=${subjectOrder.current}`)
     if(isNaN(num) == false && num <= allMeta?.totalPage){
       console.log(num)
-      push(`?page=${num}&q=${qNum.current}`)
+      push(`?page=${num}&q=${query.current}&subject=${subject.current}&order=${subjectOrder.current}`)
     }
-    if(isNaN(num)) push(`?page=1&q=${qNum.current}`)
-    if(num == 0 || num == -1) push(`?page=1&q=${qNum.current}`)
+    if(isNaN(num)) push(`?page=1&q=${query.current}&subject=${subject.current}&order=${subjectOrder.current}`)
+    if(num == 0 || num == -1) push(`?page=1&q=${query.current}&subject=${subject.current}&order=${subjectOrder.current}`)
   }
 
   return (

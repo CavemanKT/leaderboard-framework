@@ -13,7 +13,6 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
           className={`form-control ${(errors.sender && touched.sender ? ' is-invalid' : '')}`}
           name="sender"
           type="email"
-          disabled
         />
 
         <ErrorMessage component="div" className="invalid-feedback" name="sender" />
@@ -38,7 +37,6 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
           className={`form-control ${(errors.recipient && touched.recipient ? ' is-invalid' : '')}`}
           name="recipient"
           type="email"
-          disabled
         />
 
         <ErrorMessage component="div" className="invalid-feedback" name="recipient" />

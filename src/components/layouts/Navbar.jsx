@@ -159,10 +159,10 @@ export default function CompsLayoutsNavbar() {
           {/* <Image src={brandLogo} alt="brand-logo" width="250" height="250" /> */}
           <span>
             <div>
-              <Navbar.Brand as={Link} href="/?page=1&q="><a className="navbar-brand font-color">SkilledUp</a></Navbar.Brand>
+              <Navbar.Brand as={Link} href="/?page=1&q=&subject=&order="><a className="navbar-brand font-color">SkilledUp</a></Navbar.Brand>
             </div>
             <div>
-              <Navbar.Brand as={Link} href="/?page=1&q="><a className="navbar-brand font-color">Life</a></Navbar.Brand>
+              <Navbar.Brand as={Link} href="/?page=1&q=&subject=&order="><a className="navbar-brand font-color">Life</a></Navbar.Brand>
             </div>
           </span>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
