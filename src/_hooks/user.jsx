@@ -14,7 +14,7 @@ export default function useUser() {
       method: 'GET',
       url: `https://api.trumail.io/v2/lookups/json?email=${email}`,
     }).then((resp) => {
-      resolve(resp)
+      resolve(resp.data)
     }).catch((err) => {
       reject(err)
     })
