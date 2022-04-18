@@ -6,11 +6,21 @@ import * as yup from 'yup';
 
 const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handleBlur }) => {
   const [pickedStage1Val, setPickedStage1Val] = useState(null);
+  const [MRR, setMRR] = useState('')
+  const [Revenue, setRevenue] = useState('')
 
   const handlePickedStage1Ref = (value) => {
     setPickedStage1Val(value);
   };
+  
+  const handleRefMRR = (e) => {
+    setMRR(e.target.value)
+  }
 
+  const handleRefRevenue = (e) => {
+    setRevenue(e.target.value)
+  }
+  
   return (
     <Form>
       <div role="group" aria-labelledby="my-radio-group1">
@@ -111,32 +121,46 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
 
             {
               values.revenueType == 'MRR' && (
-                <div className="form-group mt-5">
-                  <label htmlFor="MRR">MRR:</label>
-                  <Field
-                    name="MRR"
-                    placeholder="$"
-                    id="MRR"
-                    className={`w-50 form-control ${(errors.MRR && touched.MRR ? ' is-invalid' : '')}`}
-                    type="number"
-                  />
-                  <ErrorMessage component="div" className="invalid-feedback" name="MRR" />
-                </div>
+                <>
+                  <div className="form-group mt-5">
+                    <label htmlFor="MRR">MRR:</label>
+                    <Field
+                      name="MRR"
+                      placeholder="$"
+                      id="MRR"
+                      className={`w-50 form-control ${(errors.MRR && touched.MRR ? ' is-invalid' : '')}`}
+                      type="number"
+                      onChange={(e) => handleRefMRR(e)}
+                      value={MRR}
+                    />
+                    <ErrorMessage component="div" className="invalid-feedback" name="MRR" />
+                  </div>
+                  <div>
+                    {MRR}
+                  </div>
+                </>
               )
             }
             {
               (values.revenueType == 'one time purchase' || values.revenueType == 'mixed') && (
-                <div className="form-group mt-5">
-                  <label htmlFor="Revenue">Revenue:</label>
-                  <Field
-                    name="Revenue"
-                    placeholder="$"
-                    id="Revenue"
-                    className={`w-50 form-control ${(errors.Revenue && touched.Revenue ? ' is-invalid' : '')}`}
-                    type="number"
-                  />
-                  <ErrorMessage component="div" className="invalid-feedback" name="Revenue" />
-                </div>
+                <>
+                  <div className="form-group mt-5">
+                    <label htmlFor="Revenue">Revenue:</label>
+                    <Field
+                      name="Revenue"
+                      placeholder="$"
+                      id="Revenue"
+                      className={`w-50 form-control ${(errors.Revenue && touched.Revenue ? ' is-invalid' : '')}`}
+                      type="number"
+                      onChange={e => handleRefRevenue(e)}
+                      value={Revenue}
+                    />
+                    <ErrorMessage component="div" className="invalid-feedback" name="Revenue" />
+                  </div>
+                  <div>
+                    {Revenue}
+                  </div>
+                </>
               )
             }
           </div>
@@ -237,9 +261,6 @@ const editReportFormSchema = yup.object().shape({
 });
 
 const EditReportForm = ({ onSubmit }) => {
-    // const { report } = useLatestReport()
-
-    // if(!report) return null
 
     return (
         <Formik
