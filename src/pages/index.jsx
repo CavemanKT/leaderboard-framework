@@ -36,7 +36,6 @@ export default function Home() {
 
   const handleQuery = (q) => {
     query.current=q
-    console.log(query)
     push(`?page=${pageNum.current}&q=${q}&subject=${subject.current}&order=${subjectOrder.current}`)
   }
 
@@ -48,7 +47,6 @@ export default function Home() {
   const handleRadioValue = (subjectValue, orderValue) => {
     subject.current = subjectValue
     subjectOrder.current = orderValue
-    console.log(subject.current, subjectOrder.current, subjectValue, orderValue)
   }
 
   const handleFilterConfirm = () => {
@@ -57,10 +55,8 @@ export default function Home() {
 
   const goToPage = (num) => {
     pageNum.current = num
-    console.log( page, num, pageNum, allMeta?.totalPage )
     if(allMeta?.totalPage && num <= allMeta?.totalPage) push(`?page=${allMeta?.totalPage}&q=${query.current}&subject=${subject.current}&order=${subjectOrder.current}`)
     if(isNaN(num) == false && num <= allMeta?.totalPage){
-      console.log(num)
       push(`?page=${num}&q=${query.current}&subject=${subject.current}&order=${subjectOrder.current}`)
     }
     if(isNaN(num)) push(`?page=1&q=${query.current}&subject=${subject.current}&order=${subjectOrder.current}`)

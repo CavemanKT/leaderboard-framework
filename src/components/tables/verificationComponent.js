@@ -5,7 +5,6 @@ import useTargetUser from '@/_hooks/targetUser'
 export const ComponentVerification = ({userId}) => {
     const { targetUser, apiSetVerifiedToTrue} = useTargetUser(userId)
     
-    console.log(targetUser)
     const settingVerifiedToTrue = (USERID) => {
         apiSetVerifiedToTrue(USERID)
     }

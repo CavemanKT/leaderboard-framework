@@ -28,13 +28,11 @@ const AccountPart = () => {
   }
 
   const submitAccountUpdate = (value, id) => {
-    console.log(value, id)
     apiAccountUpdate(value, id)
     router.push('/')
   }
 
   const submitPasswordUpdate = (value, id) => {
-    console.log(value, id)
     apiPasswordUpdate(value, id).then((resp) => {
       apiLogout()
       router.push('/')

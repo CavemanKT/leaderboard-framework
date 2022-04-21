@@ -10,7 +10,6 @@ export default function AccountPage () {
   const { user, apiPasswordUpdate, apiLogout } = useUser()
 
   const submitPasswordUpdate = (value, id) => {
-    console.log(value, id)
     apiPasswordUpdate(value, id).then((resp) => {
       apiLogout().then(() => {
         router.push('/')

@@ -47,7 +47,6 @@ export default function CompsLayoutsNavbar() {
       progress: undefined,
     })
     apiTurmail(values.email).then((resp) => {
-      console.log(resp)
       if (resp.validFormat == true && resp.deliverable == true && resp.hostExists == true) {
         apiSignup(values).then(() => {
           toast.success('Signed up successfully', {

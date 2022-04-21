@@ -12,7 +12,6 @@ function PageReportCreateForm () {
   const router = useRouter()
 
   const submitReportCreate = (value, profileId) => {
-    console.log(value, profileId)
     apiCreateReport(value, profileId).then(() => {
       router.push('/my/report')
     })

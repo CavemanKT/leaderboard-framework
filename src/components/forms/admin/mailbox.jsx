@@ -84,7 +84,6 @@ const mailboxSchema = yup.object().shape({
 const FormMailbox = ({ onSubmit, recipientId, senderEmail }) => {
   const { targetUser } = useTargetUser(recipientId)
   const ref = useRef(null)
-  console.log(recipientId, targetUser?.id)
 
   if(!targetUser || targetUser.role == "admin") return null
 

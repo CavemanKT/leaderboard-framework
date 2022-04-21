@@ -25,7 +25,6 @@ function ContactPage () {
     handleClose(true)
     setRecipientId(recipientID)
     setSender(senderEmail)
-    console.log(recipientID, senderEmail)
   }
 
   const handleSendEmail = (value) => {

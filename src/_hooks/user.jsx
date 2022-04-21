@@ -32,7 +32,6 @@ export default function useUser() {
       mutate(resp.data)
     }).catch((err) => {
       reject(err)
-      console.log(err)
     })
   }))
 
@@ -69,12 +68,10 @@ export default function useUser() {
       data: values,
       withCredentials: true
     }).then((resp) => {
-      console.log(resp.data)
       resolve(resp)
       mutate(resp.data)
     }).catch((err) => {
       reject(err)
-      console.log(err)
     })
   }))
 
@@ -85,12 +82,10 @@ export default function useUser() {
       data: values,
       withCredentials: true
     }).then((resp) => {
-      console.log(resp.data)
       resolve(resp)
       mutate(resp.data)
     }).catch((err) => {
       reject(err)
-      console.log(err)
     })
   }))
 

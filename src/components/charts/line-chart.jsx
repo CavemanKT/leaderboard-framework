@@ -8,7 +8,6 @@ import dynamic from 'next/dynamic'
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 const LineChart = ({ chartData }) => {
-    console.log(chartData)
     if(chartData?.score?.length == 0) return null
 
   const [collections, setCollections] = useState({

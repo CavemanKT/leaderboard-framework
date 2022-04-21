@@ -12,7 +12,6 @@ function PageWeeklyReportForm () {
   const router = useRouter()
 
   const submitWeeklyReport = (value, profileId) => {
-    console.log(value, profileId)
     apiCreateReport(value, profileId).then(() => {
       apiWeeklyReportFilledSchedule().then(()=> {
         router.push('/my/report')

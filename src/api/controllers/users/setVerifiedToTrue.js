@@ -15,7 +15,6 @@ const userSerializer = function (values) {
 const targetUserShow = async (req, res) => {
     const {userId, targetUserId} = req.query
     
-    console.log(userId, targetUserId)
 
     if(!userId){
         res.status(500).json('no userId provided')

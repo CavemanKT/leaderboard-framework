@@ -16,10 +16,8 @@ export default function useReport() {
             withCredentials: true
         }).then((resp) => {
             resolve(resp)
-            console.log(resp)
         }).catch((err) => {
             reject(err)
-            console.log(err);
             window.location.reload(false);
         })
     }))

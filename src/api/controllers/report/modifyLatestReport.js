@@ -24,7 +24,6 @@ const attributesPostRevenueRevenue = [
 const modifyLatestReport = async (req, res) => {
   const {pickedStage1, pickedStage2, weeklyAchievement, weeklyPlan, totalWaitingList, MRR, Revenue, revenueType } = req.body
   const { profileId} = req.query
-    console.log(profileId, 3333333333333)
 
 //   destroy the old latest report
   const latestReport = await Report1.findOne({
@@ -33,7 +32,6 @@ const modifyLatestReport = async (req, res) => {
       },
       order: [['updatedAt', 'DESC']]
   })
-    console.log(333333333333333333333,latestReport)
 
   const latestReportPreRevenue = await Report2PreRevenue.findOne({
       where: {
@@ -41,14 +39,12 @@ const modifyLatestReport = async (req, res) => {
       }
   })
 
-  console.log(latestReportPreRevenue)
 
   const latestReportPostRevenue = await Report3PostRevenue.findOne({
       where: {
           Report1Id: latestReport.id
       }
   })
-  console.log(latestReportPostRevenue)
 
   if (latestReportPreRevenue) {
       const destroy2 = await Report2PreRevenue.destroy({
@@ -56,7 +52,6 @@ const modifyLatestReport = async (req, res) => {
               id: latestReportPreRevenue.id
           }
       })
-      console.log(destroy2)
   }
   if(latestReportPostRevenue) {
       const destroy3 = await Report3PostRevenue.destroy({
@@ -64,14 +59,12 @@ const modifyLatestReport = async (req, res) => {
               id: latestReportPostRevenue.id
           }
       })
-      console.log(destroy3)
   }
   const destroy1 = await Report1.destroy({
       where: {
           id: latestReport.id
       }
   })
-  console.log(destroy1)
   
 
 //   and then create new report and update the score in Profile table

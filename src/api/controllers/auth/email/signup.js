@@ -7,7 +7,6 @@ import session from '@/api/helpers/session'
 import passport from '@/api/helpers/passport'
 
 const authEmailSignup = async (req, res) => {
-  console.log(req.body)
   const user = await User.build({
     email: req.body.email, 
     registrationType: 'email',
@@ -26,7 +25,6 @@ const authEmailSignup = async (req, res) => {
     res.status(403).json('need to fill in the necessary information')
   }
 
-  console.log(req.body.domain, req.body.founded, req.body.country, req.body.category, user.id)
   
 
   const profile = await Profile.create({
@@ -38,7 +36,6 @@ const authEmailSignup = async (req, res) => {
     UserId: user.id
   })
   
-  console.log(profile)
   
   res.status(200).json({message: 'successful signup'})
 }

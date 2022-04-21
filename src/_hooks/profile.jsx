@@ -19,7 +19,6 @@ export default function useProfile() {
             mutate(resp.data)
         }).catch((err) => {
             reject(err)
-            console.log(err)
         })
     }))
 
@@ -33,7 +32,6 @@ export default function useProfile() {
             resolve(resp)
         }).catch((err) => {
             reject(err)
-            console.log(err)
             window.location.reload(false)
         })
     }))
@@ -48,7 +46,6 @@ export default function useProfile() {
             resolve(resp)
         }).catch((err) => {
             reject(err)
-            console.log(err)
             window.location.reload(false)
         })
     }))

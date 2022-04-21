@@ -17,7 +17,6 @@ export default function useTargetUser(userId) {
             withCredentials: true,
         }).then((resp) => {
             resolve(resp)
-            console.log(resp.data)
             mutate(resp.data)
         }).catch((err) => {
             reject(err)

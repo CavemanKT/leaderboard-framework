@@ -12,7 +12,6 @@ function PageProfileEdit () {
     const [switchEditProfile2, setSwitchEditProfile2] = useState(false)
     const [switchEditProfile1, setSwitchEditProfile1] = useState(true)
     const router = useRouter()
-console.log(profile)
     if(!profile) return null
 
     const handleSubmitEditProfile1 = (values) => {

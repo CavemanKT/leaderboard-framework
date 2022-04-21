@@ -25,7 +25,6 @@ const allProfilesShow = async (req, res) => {
     } else {
         order = req?.query?.order
     }
-    console.log("page: ", page, " offset: ", offset, " q : ",  q, " subject: ", subject, ' order: ', order)
 
     try{
         const profiles = await Profile.findAndCountAll({
@@ -40,7 +39,6 @@ const allProfilesShow = async (req, res) => {
             offset
         })
     
-        console.log(profiles.rows[0].domain)
     
         res.status(200).json({profiles: profiles.rows, 
             filter: {q, page, limit, offset, totalPage: Math.ceil(profiles.count / limit)}

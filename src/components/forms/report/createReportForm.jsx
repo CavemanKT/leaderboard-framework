@@ -1,7 +1,8 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as yup from 'yup'
+import useCurrencyConverter from '@/_hooks/currencyConverterAPI'
 
 const fcObj = {
   AED: 3.963415,
@@ -180,26 +181,42 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
   const [MRR, setMRR] = useState('')
   const [revenue, setRevenue] = useState('')
   const [ fc, setFc ] = useState('')
-  
+  const { apiCurrencyConverter } = useCurrencyConverter()
+  const [tcResult, setTcResult] = useState(null)
+
+  useEffect(() => {
+    console.log(fc)
+  }, [fc])
   
   const handlePickedStage1Ref = (value) => {
     setPickedStage1Val(value)
-    console.log(value)
   }
 
   const handleRefMRR = (e) => {
     setMRR(e.target.value)
+    apiCurrencyConverter().then((resp) => {
+      let rate = resp.rates[fc]
+      let usdRate = resp.rates['USD']  // base currency is EUR
+      let result = e.target.value / rate * usdRate
+      setTcResult(result)
+    })
   }
 
   const handleRefRevenue = (e) => {
     setRevenue(e.target.value)
+    apiCurrencyConverter().then((resp) => {
+      let rate = resp.rates[fc]
+      let usdRate = resp.rates['USD']  // base currency is EUR
+      let result = e.target.value / rate * usdRate
+      setTcResult(result)
+    })
   }
   
   const handleFcChange = (e) => {
     setFc(e.target.value)
-    console.log(fc, MRR, revenue)
+    console.log(MRR, revenue)
     // calculate the price
-
+    apiCurrencyConverter()
   }
 
   return (
@@ -331,7 +348,7 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
                     <ErrorMessage component="div" className="invalid-feedback" name="MRR" />
                   </div>
                   <div>
-                    ${MRR}
+                    ${tcResult}
                   </div>
                 </>
               )
@@ -339,6 +356,21 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
             {
               (values.revenueType == 'one time purchase' || values.revenueType == 'mixed') && (
                 <>
+                  <div>
+                    <label htmlFor="FC" style={{ display: 'block' }}>
+                      From Currency:
+                    </label>
+                    <select
+                      name="FC"
+                      value={values.FC}
+                      onChange={handleFcChange}
+                      onBlur={handleBlur}
+                      style={{ display: 'block' }}
+                    >
+                      <option value='EUR' label='EUR' />
+                      <option value='GBP' label='GBP' />
+                    </select>
+                  </div>
                   <div className="form-group mt-5">
                     <label htmlFor="Revenue">Revenue:</label>
                     <Field
@@ -353,7 +385,7 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
                     <ErrorMessage component="div" className="invalid-feedback" name="Revenue" />
                   </div>
                     <div>
-                      ${revenue}
+                      ${tcResult}
                     </div>
                 </>
               )

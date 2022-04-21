@@ -16,10 +16,8 @@ export default function useLatestReport(id) {
             withCredentials: true
         }).then((resp) => {
             resolve(resp)
-            console.log(resp.data)
         }).catch((err) => {
             reject(err)
-            console.log(err)
         })
     }))    
     

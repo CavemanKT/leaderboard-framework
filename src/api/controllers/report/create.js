@@ -102,7 +102,6 @@ const reportCreate = async (req, res) => {
     order: [['updatedAt', 'DESC']]
   })
 
-  console.log(report, report.updatedAt, report.updatedAt.getDay())
   
   if (req.body.pickedStage1 == 'preRevenue'){
     const createdReport2 = await Report2PreRevenue.create({

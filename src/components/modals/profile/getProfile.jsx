@@ -18,7 +18,6 @@ const CompsModalGetProfile = ({ data, close }) => {
   const { user, isLoading: isUserLoading } = useUser()
   if (!user?.Profile?.id) router.push('/warningPage')
 
-  // console.log(data)
   const {
     invitation, isLoading: isInvitationLoading,
     createInvitation, destroyInvitation
