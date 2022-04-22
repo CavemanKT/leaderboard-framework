@@ -26,7 +26,7 @@ const reportCreate = async (req, res) => {
   const { profileId} = req.query
 
   let [factor1, factor2, factor3, factor4] = [0, 0, 0, 0, 0]
-
+  console.log( pickedStage1, pickedStage2, weeklyAchievement, weeklyPlan, totalWaitingList, "MRR: ", MRR, Revenue, "revenueType: ", revenueType, profileId)
   if (pickedStage1 == 'preRevenue'){
     factor1 = 1
     if (pickedStage2 == 'idea validation'){

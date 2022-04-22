@@ -178,8 +178,8 @@ const fcObj = {
 
 const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handleBlur }) => {
   const [pickedStage1Val, setPickedStage1Val] = useState(null)
-  const [MRR, setMRR] = useState('')
-  const [revenue, setRevenue] = useState('')
+  const [fcMRR, setFcMRR] = useState('')
+  const [fcRevenue, setFcRevenue] = useState('')
   const [ fc, setFc ] = useState('')
   const { apiCurrencyConverter } = useCurrencyConverter()
   const [tcResult, setTcResult] = useState(null)
@@ -192,31 +192,36 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
     setPickedStage1Val(value)
   }
 
-  const handleRefMRR = (e) => {
-    setMRR(e.target.value)
+  const currencyCalculationFromGBP = (value) => {
     apiCurrencyConverter().then((resp) => {
       let rate = resp.rates[fc]
-      let usdRate = resp.rates['USD']  // base currency is EUR
-      let result = e.target.value / rate * usdRate
-      setTcResult(result)
+      let gbpRate = resp.rates['EUR']  // base currency is EUR
+      let result = value / rate * gbpRate
+      setTcResult(result.toFixed(4))
+      console.log(result.toFixed(4))
     })
   }
 
-  const handleRefRevenue = (e) => {
-    setRevenue(e.target.value)
-    apiCurrencyConverter().then((resp) => {
-      let rate = resp.rates[fc]
-      let usdRate = resp.rates['USD']  // base currency is EUR
-      let result = e.target.value / rate * usdRate
-      setTcResult(result)
-    })
+  const handleFcMRR = (e) => {
+    setFcMRR(e.target.value)
+    currencyCalculationFromGBP(e.target.value)
+  }
+
+  const handleFcRevenue = (e) => {
+    setFcRevenue(e.target.value)
+    currencyCalculationFromGBP(e.target.value)
   }
   
-  const handleFcChange = (e) => {
+  const handleFcChangeMRR = (e) => {
     setFc(e.target.value)
-    console.log(MRR, revenue)
-    // calculate the price
-    apiCurrencyConverter()
+    console.log(fcMRR, fcRevenue)
+    currencyCalculationFromGBP(fcMRR)
+  }
+
+  const handleFcChangeRevenue = (e) => {
+    setFc(e.target.value)
+    // console.log(fcRevenue, fcRevenue)
+    // currencyCalculationFromGBP(fcRevenue)
   }
 
   return (
@@ -326,29 +331,41 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
                     <select
                       name="FC"
                       value={values.FC}
-                      onChange={handleFcChange}
+                      onChange={handleFcChangeMRR}
                       onBlur={handleBlur}
                       style={{ display: 'block' }}
                     >
+                      <option value="" label="Select a currency type" />
                       <option value='EUR' label='EUR' />
                       <option value='GBP' label='GBP' />
+                      <option value='USD' label='USD' />
                     </select>
                   </div>
                   <div className="form-group mt-5">
-                    <label htmlFor="MRR">MRR:</label>
+                    <label htmlFor="fcMRR">fcMRR</label>
+                    <Field
+                      name="fcMRR"
+                      placeholder={fc}
+                      id="fcMRR"
+                      className={`w-50 form-control ${(errors.fcMRR && touched.fcMRR ? ' is-invalid' : '')}`}
+                      type="number"
+                      onChange={(e) => handleFcMRR(e)}
+                      value={fcMRR}
+                    />
+                    <ErrorMessage component="div" className="invalid-feedback" name="MRR" />
+                  </div>
+                  <div className="form-group mt-5">
+                    <label htmlFor="MRR">converted MRR</label> GBP
                     <Field
                       name="MRR"
                       placeholder="$"
                       id="MRR"
                       className={`w-50 form-control ${(errors.MRR && touched.MRR ? ' is-invalid' : '')}`}
                       type="number"
-                      onChange={(e) => handleRefMRR(e)}
-                      value={MRR}
+                      disabled={true}
+                      value={tcResult}
                     />
                     <ErrorMessage component="div" className="invalid-feedback" name="MRR" />
-                  </div>
-                  <div>
-                    ${tcResult}
                   </div>
                 </>
               )
@@ -363,7 +380,7 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
                     <select
                       name="FC"
                       value={values.FC}
-                      onChange={handleFcChange}
+                      onChange={handleFcChangeRevenue}
                       onBlur={handleBlur}
                       style={{ display: 'block' }}
                     >
@@ -372,21 +389,31 @@ const RenderForm = ({ values, errors, touched, isSubmitting, handleChange, handl
                     </select>
                   </div>
                   <div className="form-group mt-5">
-                    <label htmlFor="Revenue">Revenue:</label>
+                    <label htmlFor="fcRevenue">fcRevenue:</label>
+                    <Field
+                      name="fcRevenue"
+                      placeholder={fc}
+                      id="fcRevenue"
+                      className={`w-50 form-control ${(errors.fcRevenue && touched.fcRevenue ? ' is-invalid' : '')}`}
+                      type="number"
+                      onChange={e => handleFcRevenue(e)}
+                      value={fcRevenue}
+                    />
+                    <ErrorMessage component="div" className="invalid-feedback" name="Revenue" />
+                  </div>
+                  <div className="form-group mt-5">
+                    <label htmlFor="Revenue">converted Revenue</label> GBP
                     <Field
                       name="Revenue"
                       placeholder="$"
                       id="Revenue"
                       className={`w-50 form-control ${(errors.Revenue && touched.Revenue ? ' is-invalid' : '')}`}
                       type="number"
-                      onChange={e => handleRefRevenue(e)}
-                      value={revenue}
+                      disabled={true}
+                      value={tcResult}
                     />
                     <ErrorMessage component="div" className="invalid-feedback" name="Revenue" />
                   </div>
-                    <div>
-                      ${tcResult}
-                    </div>
                 </>
               )
             }
@@ -452,7 +479,7 @@ const createReportFormSchema = yup.object().shape({
     is: 'postRevenue',
     then: yup.number().when('revenueType', {
       is: 'MRR',
-      then: yup.number().nullable(false).required('Required'),
+      then: yup.number().nullable(false),
       otherwise: yup.number().when('revenueType', {
         is: 'one time purchase',
         then: yup.number(),
@@ -491,7 +518,9 @@ const createReportForm = ({ onSubmit }) => (
       pickedStage2: '',
       totalWaitingList: '',
       revenueType: '',
+      fcMRR: '',
       MRR: '',
+      fcRevenue: '',
       Revenue: '',
       weeklyAchievement: '',
       weeklyPlan: ''
