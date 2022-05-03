@@ -3,7 +3,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router'
 import Overlay from 'react-bootstrap/Overlay';

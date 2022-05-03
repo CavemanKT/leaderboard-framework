@@ -30,6 +30,7 @@ const RenderForm = ({ errors, touched, isSubmitting }) => (
     <button className="btn btn-success mt-3" type="submit" disabled={isSubmitting}>Submit</button>
   </Form>
 )
+
 RenderForm.propTypes = {
   errors: PropTypes.shape().isRequired,
   touched: PropTypes.shape().isRequired,
